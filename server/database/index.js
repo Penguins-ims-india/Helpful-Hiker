@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const colotGenerator = require('../helpers/colorGenerator');
 
 const sequelize = new Sequelize('safetree', 'root', '', {
   host: 'localhost',
@@ -83,6 +84,19 @@ const Observations = sequelize.define('observation', {
 User.Observations = User.hasMany(Observations);
 Observations.User = Observations.belongsTo(User);
 
+//HELPFUl HIKER
+// Tags for hiking trails
+const Tags = sequelize.define('tag', {
+  name: DataTypes.TEXT,
+  color: {
+    type: DataTypes.TEXT,
+    set() { this.setDataValue(colorGenerator()); }
+  },
+})
+
+Hike.belongsToMany(Tags, {through: 'Hikes_Tags'});
+Tags.belongsToMany(Hike, {through: 'Hikes_Tags'});
+
 module.exports = {
   User,
   Plant,
@@ -90,5 +104,6 @@ module.exports = {
   Itinerary,
   Hike,
   Observations,
+  Tags,
   sequelize,
 };
