@@ -33,6 +33,14 @@ passport.use(
   )
 );
 
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
 // Consent Screen
 app.get(
   '/auth/google',
@@ -50,14 +58,6 @@ app.get(
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'));
-});
-
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((user, done) => {
-  done(null, user);
 });
 
 app.get('/login', (req, res) => {
