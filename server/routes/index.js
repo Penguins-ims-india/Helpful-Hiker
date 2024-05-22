@@ -9,6 +9,7 @@ const safeTree = Router();
 
 safeTree.post('/hikeSearch', hikes);
 safeTree.all('/hikes', hikes);
+safeTree.all('/hikes/:id/tags', hikes);
 
 safeTree.all('/observations/', observations);
 safeTree.all('/observations/:id', observations);
