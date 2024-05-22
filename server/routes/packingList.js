@@ -28,8 +28,8 @@ packingList.post('/packingList', (req, res) => {
   // use create sequelize prop to make a new packinglist
   PackingList.create({ userId, name })
   // set status to 201 and send new packinglist
-    .then((newPackingList) => {
-      res.status(201).json(newPackingList);
+    .then(() => {
+      res.status(201);
     })
     // if the query fails, send 500 sc and error message
     .catch((err) => {
