@@ -133,7 +133,43 @@ hikes.post('/hikes/:id/tags', (req, res) => {
     })
     .catch((err) => {
       console.error('Failed to add tag: ', err);
+      if (err === 'Hike not found') {
+        res.sendStatus(404);
+      }
+      else {
+        res.sendStatus(500)
+      }
+    });
+})
+
+hikes.delete('/hikes/:id/tags/:tagID', (req, res) => {
+  const { id, tagID } = req.params;
+  Hike.findByPk(id)
+    .then((hike) => {
+      if (hike) {
+        return hike.removeTag(tagID)
+      }
+      else {
+        throw 'Hike not found'
+      }
     })
+    .then((data) => {
+      if (data > 0) {
+        res.sendStatus(200);
+      }
+      else {
+        res.sendStatus(404)
+      }
+    })
+    .catch((err) => {
+      console.error('Failed to add tag: ', err);
+      if (err === 'Hike not found') {
+        res.sendStatus(404);
+      }
+      else {
+        res.sendStatus(500)
+      }
+    });
 })
 
 module.exports = hikes;
