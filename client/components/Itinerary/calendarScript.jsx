@@ -1,9 +1,62 @@
 import React, { useState, useEffect } from 'react';
 
+// Use Material UI to style it like CSS
+// Import makeStyles function from Material-UI
+// import { makeStyles } from '@material-ui/core/styles'; 
+
+// const useStyles = makeStyles((theme) => ({
+//     calendar: {
+//       fontFamily: 'Arial, sans-serif',
+//       border: '1px solid #ccc',
+//       borderRadius: '5px',
+//       padding: '20px',
+//       backgroundColor: '#fff',
+//     },
+//     month: {
+//       textAlign: 'center',
+//       fontSize: '1.5rem',
+//       fontWeight: 'bold',
+//       marginBottom: '10px',
+//     },
+//     day: {
+//       width: '40px',
+//       height: '40px',
+//       textAlign: 'center',
+//       lineHeight: '40px',
+//       border: '1px solid #ccc',
+//       borderRadius: '50%',
+//       cursor: 'pointer',
+//       '&.other-month': {
+//         color: '#ccc',
+//       },
+//       '&.today': {
+//         backgroundColor: '#f0f0f0',
+//       },
+//     },
+//     // Add more styles as needed
+//   }));
+
 const CalendarScript = () => {
     // Define state variables
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+    // Adding event variable
+    const [events, setEvents] = useState([]);
+
+    // Function to add a new event
+    const addEvent = (newEvent) => {
+        setEvents([...events, newEvent]);
+    };
+
+    // Function to delete an event
+    const deleteEvent = (eventId) => {
+        setEvents(events.filter(event => event.id !== eventId));
+    };
+
+     // Function to update an event
+     const updateEvent = (updatedEvent) => {
+        setEvents(events.map(event => (event.id === updatedEvent.id ? updatedEvent : event)));
+    };
 
     // Define the months array
     const months = [
@@ -79,6 +132,11 @@ const CalendarScript = () => {
         renderCalendar();
     }, [currentMonth, currentYear]);
 
+
+    // Placing event functionality here
+    
+
+
     // Define a function to generate the JSX for the days of the month
 const renderDaysOfMonth = () => {
     // Get the number of days in the current month
@@ -89,22 +147,28 @@ const renderDaysOfMonth = () => {
 
     // Loop over the days of the month
     for (let i = 1; i <= daysInMonth; i++) {
-        // Check if the current day is today
+        const day = `${currentYear}-${currentMonth + 1}-${i}`;
+        const event = events.find(event => event.date === day);
         const isToday = i === new Date().getDate() && currentMonth === new Date().getMonth() && currentYear === new Date().getFullYear();
 
-        // Construct the JSX for the day
         const dayJSX = (
             <div className={`day ${isToday ? 'today' : ''}`} key={i}>
                 {i}
                 <form>
-                   <label for="fname">Things to do:</label>
-                   <input type="text" id="fname" name="fname"></input>
-                 </form>
+                    <label htmlFor={`event_${day}`}>Things to do:</label>
+                    <input
+                        type="text"
+                        id={`event_${day}`}
+                        name={`event_${day}`}
+                        value={event ? event.description : ''}
+                        onChange={(e) => updateEvent({ ...event, description: e.target.value })}
+                    />
+                    <button type="button" onClick={() => deleteEvent(event.id)}>Delete</button>
+                </form>
             </div>
         );
-
-        // Push the JSX element for the day to the array
         daysJSX.push(dayJSX);
+
     }
 
     // Return the array of JSX elements for the days
