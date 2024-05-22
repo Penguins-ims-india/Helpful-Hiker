@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const colotGenerator = require('../helpers/colorGenerator');
+const colorGenerator = require('../helpers/colorGenerator');
 
 const sequelize = new Sequelize('safetree', 'root', '', {
   host: 'localhost',
@@ -90,7 +90,7 @@ const Tags = sequelize.define('tag', {
   name: DataTypes.TEXT,
   color: {
     type: DataTypes.TEXT,
-    set() { this.setDataValue(colorGenerator()); }
+    defaultValue: () => colorGenerator()
   },
 })
 

@@ -12,6 +12,5 @@ module.exports = () => {
     'fuchsia',
     'lawngreen'
   ]
-
-  return colors[Math.floor(Math.random() * colors.length)]
+  return colors[Math.floor(Math.random() * colors.length)];
 }
