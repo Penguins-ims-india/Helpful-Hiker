@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { Button, TextField, Typography } from '@mui/material';
 
@@ -10,6 +10,7 @@ const HikeSearch = () => {
   const [input, setInput] = useState('');
   const [results, loadResults] = useState([]);
   const [favHikes, setFavHikes] = useState([]);
+  const favHikesRef = useRef(favHikes)
 
   const handleInput = (e) => {
     setInput(e.target.value);
@@ -39,7 +40,8 @@ const HikeSearch = () => {
         console.error('Failed to get favorite hikes', err)
       })
   }
-  getFavHikes();
+
+  useEffect(getFavHikes, [favHikesRef])
 
   return (
     <div className="hike-search">
