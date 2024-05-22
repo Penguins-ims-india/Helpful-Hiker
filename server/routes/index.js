@@ -25,9 +25,11 @@ safeTree.all('/wildlife', wildlife);
 
 safeTree.all('/wildLifeSearch', wildlife)
 
+// PackingList routes
 safeTree.all('/packingList', packingList);
 safeTree.all('/packingList/:id', packingList);
 
+// PackingListItem routes
 safeTree.all('/packingListItem', packingListItem);
 safeTree.all('/packingListItem/:id', packingListItem);
 

@@ -89,6 +89,7 @@ const PackingList = sequelize.define('PackingList', {
     primaryKey: true,
     autoIncrement: true,
   },
+  name: DataTypes.STRING,
   // define userId column of PackingList table
   // it is a foreign key aka references the id column of the User table
   userId: {
@@ -129,7 +130,7 @@ const PackingListItem = sequelize.define('PackingListItem', {
 // 1:1 relationship between User and PackingList
 // aka 1 User has 1 PackingList
 // add foreignKey to specify which column in PackingList references User table
-User.hasOne(PackingList, { foreignKey: 'userId' });
+User.hasMany(PackingList, { foreignKey: 'userId' });
 // PackingList belongs to user
 // again adds foreignKey to specify which column in PackingList references User table
 PackingList.belongsTo(User, { foreignKey: 'userId' });
