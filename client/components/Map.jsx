@@ -38,6 +38,18 @@ function Map() {
   const currentCenter = coords
     ? { lat: coords.latitude, lng: coords.longitude }
     : defaultCenter;
+  if (loadError) {
+    console.error('Error loading Google Maps API:', loadError);
+  }
+
+  if (!isGeolocationAvailable) {
+    console.error('Geolocation is not available on this browser.');
+  }
+
+  if (!isGeolocationEnabled) {
+    console.error('Geolocation is not enabled.');
+  }
+
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
