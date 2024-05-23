@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 const HikeFav = ({ favHike, getFavHikes }) => {
 
   const [newRating, setNewRating] = useState('');
-  const { description } = favHike;
+  const { description, id } = favHike;
 
   const removeFavHike = () => {
     // delete req to the db
@@ -46,7 +46,11 @@ const HikeFav = ({ favHike, getFavHikes }) => {
   }
 
   const addTag = () => {};
-  const deleteTag = () => {};
+  const deleteTag = (tagID) => {
+    axios.delete(`/hikes/${id}/tags/${tagID}`)
+      .then(getFavHikes())
+      .catch((err) => {console.error('Cannot delete tag: ', err)})
+  };
 
   return (
     <Card variant='outlined' sx={{width: 3/4, borderColor: 'black'}}>
@@ -75,7 +79,7 @@ const HikeFav = ({ favHike, getFavHikes }) => {
         </Box>
       </CardActionArea>
       <Box sx={{marginBottom: 1}}>
-        {favHike.tags.map(tag => <Tag tag={tag} />)}
+        {favHike.tags.map(tag => <Tag tag={tag} deleteTag={deleteTag}/>)}
         <IconButton size='small' sx={{backgroundColor: 'lightgrey'}}><AddIcon fontSize='small'/></IconButton>
       </Box>
     </Card>

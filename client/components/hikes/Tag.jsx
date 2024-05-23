@@ -1,10 +1,10 @@
 import React from "react";
 import { Chip } from "@mui/material";
 
-const Tag = ({ tag }) => {
+const Tag = ({ tag, deleteTag }) => {
   const { name, color } = tag;
   return (
-    <Chip size="small" sx={{backgroundColor: color, color: 'grey'}} label={name} />
+    <Chip size="small" sx={{backgroundColor: color, color: 'black'}} label={name} onDelete={() => {deleteTag(tag.id)}}/>
   )
 }
 
