@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { useGeolocated } from 'react-geolocated';
 
 const containerStyle = {
   width: '1000px',
@@ -38,6 +39,7 @@ function Map() {
   const currentCenter = coords
     ? { lat: coords.latitude, lng: coords.longitude }
     : defaultCenter;
+
   if (loadError) {
     console.error('Error loading Google Maps API:', loadError);
   }
@@ -51,17 +53,22 @@ function Map() {
   }
 
   return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={10}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-    >
-      { /* Child components, such as markers, info windows, etc. */ }
-      <></>
-    </GoogleMap>
-  ) : <></>;
+    <>
+      <p>{(currentCenter.lat, currentCenter.lng)}</p>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={currentCenter}
+        zoom={10}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+      >
+        {/* Child components, such as markers, info windows, etc. */}
+        <></>
+      </GoogleMap>
+    </>
+  ) : (
+    <div>Loading...</div>
+  );
 }
 
 export default React.memo(Map);
