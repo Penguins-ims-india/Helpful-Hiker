@@ -4,7 +4,7 @@ import { Button, TextField, Card, CardActionArea, Typography, Box, IconButton, A
 import Tag from './Tag.jsx';
 import AddIcon from '@mui/icons-material/Add';
 
-const HikeFav = ({ favHike, getFavHikes }) => {
+const HikeFav = ({ favHike, getFavHikes, allTags }) => {
 
   const [newRating, setNewRating] = useState('');
   const [anchor, setAnchor] = useState(null)
@@ -47,18 +47,6 @@ const HikeFav = ({ favHike, getFavHikes }) => {
       })
   }
 
-  const openTagMenu = (e) => {
-    if (!open) {
-      setAnchor(e.target)
-    }
-  };
-
-  const closeTagMenu = () => {
-    if (open) {
-      setAnchor(null)
-    }
-  }
-
   const deleteTag = (tagID) => {
     axios.delete(`/hikes/${id}/tags/${tagID}`)
       .then(getFavHikes())
@@ -73,45 +61,30 @@ const HikeFav = ({ favHike, getFavHikes }) => {
       <Typography variant='p'>
         {favHike.location}
       </Typography>
-      <Typography variant='h6' gutterBottom>
-        {`Rating:  ${favHike.rating}`}
-      </Typography>
-      <CardActionArea sx={{marginBottom: 2, alignContent: 'space-evenly'}}>
-        <Box>
-          <TextField
-            id="filled-basic"
-            label="Rate this hike"
-            variant="filled"
-            value={ newRating }
-            onChange={ handleNewRating }
-            type="text"
-            placeholder="up to 5"
-          />
-          <Button variant="contained" onClick={ rateFavHike } type="button">Rate</Button>
-          <Button variant="contained" color='error' onClick={ removeFavHike } type="button">Remove</Button>
-        </Box>
-      </CardActionArea>
+      <Box sx={{display:'flex', flexDirection:'row'}}>
+        <Typography variant='h6' gutterBottom>
+          {`Rating:  ${favHike.rating}`}
+        </Typography>
+            <TextField
+              id="filled-basic"
+              label="Rate this hike"
+              variant="filled"
+              value={ newRating }
+              onChange={ handleNewRating }
+              type="text"
+              placeholder="up to 5"
+            />
+            <Button variant="contained" onClick={ rateFavHike }>Rate</Button>
+            <Button variant="contained" color='error' onClick={ removeFavHike }>Remove</Button>
+      </Box>
       <Box sx={{marginBottom: 1, flexDirection:'column'}}>
-        {favHike.tags.map(tag => <Tag tag={tag} deleteTag={deleteTag}/>)}
+        {favHike.tags.map(tag => <Tag tag={tag} deleteTag={deleteTag} key={tag.id}/>)}
         <Autocomplete
-          multiple
           getOptionLabel={(option) => option.name}
-          options={[{
-                "id": 6,
-                "name": "Beautiful",
-                "color": "aquamarine",
-                "createdAt": "2024-05-22T23:15:02.000Z",
-                "updatedAt": "2024-05-22T23:15:02.000Z",
-                "Hikes_Tags": {
-                    "createdAt": "2024-05-22T23:15:02.000Z",
-                    "updatedAt": "2024-05-22T23:15:02.000Z",
-                    "HikeId": 1,
-                    "tagId": 6
-                }
-            }]}
+          options={allTags}
           renderInput={(params) => (<TextField {...params} placeholder='Tags' />)}
           />
-        <IconButton size='small' sx={{backgroundColor: 'lightgrey'}} onClick={openTagMenu} ><AddIcon fontSize='small'/></IconButton>
+        <IconButton size='small' sx={{backgroundColor: 'lightgrey'}}><AddIcon fontSize='small'/></IconButton>
       </Box>
     </Card>
   )
