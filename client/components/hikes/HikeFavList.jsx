@@ -17,8 +17,6 @@ const HikeFavList = ({ favHikes, getFavHikes }) => {
       })
   }, tagsRef)
 
-  console.log(tags)
-
   return (
     <div className="fav-hike-list">
       {

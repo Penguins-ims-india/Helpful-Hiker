@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, TextField, Card, CardActionArea, Typography, Box, IconButton, Autocomplete} from '@mui/material';
+import { Button, TextField, Card, Typography, Box, IconButton, Menu, MenuItem} from '@mui/material';
 import Tag from './Tag.jsx';
 import AddIcon from '@mui/icons-material/Add';
 
 const HikeFav = ({ favHike, getFavHikes, allTags }) => {
 
   const [newRating, setNewRating] = useState('');
-  const [anchor, setAnchor] = useState(null)
-  const open = Boolean(anchor)
+  const [anchor, setAnchor] = useState(null);
+  const open = Boolean(anchor);
   const { description, id } = favHike;
 
   const removeFavHike = () => {
@@ -53,6 +53,22 @@ const HikeFav = ({ favHike, getFavHikes, allTags }) => {
       .catch((err) => {console.error('Cannot delete tag: ', err)})
   };
 
+  const addTag = (tag) => {
+    axios.post(`/hikes/${favHike.id}/tags`, {tag})
+      .then(getFavHikes())
+      .catch((err) => {
+        console.error('Could not add tag to hike ', err)
+      })
+  }
+
+  const handleClick = (e) => {
+    setAnchor(e.target);
+  };
+
+  const handleClose = () => {
+    setAnchor(null)
+  }
+
   return (
     <Card variant='outlined' sx={{width: 3/4, borderColor: 'black'}}>
       <Typography variant='h4'>
@@ -77,14 +93,19 @@ const HikeFav = ({ favHike, getFavHikes, allTags }) => {
             <Button variant="contained" onClick={ rateFavHike }>Rate</Button>
             <Button variant="contained" color='error' onClick={ removeFavHike }>Remove</Button>
       </Box>
-      <Box sx={{marginBottom: 1, flexDirection:'column'}}>
+      <Box>
         {favHike.tags.map(tag => <Tag tag={tag} deleteTag={deleteTag} key={tag.id}/>)}
-        <Autocomplete
-          getOptionLabel={(option) => option.name}
-          options={allTags}
-          renderInput={(params) => (<TextField {...params} placeholder='Tags' />)}
-          />
-        <IconButton size='small' sx={{backgroundColor: 'lightgrey'}}><AddIcon fontSize='small'/></IconButton>
+        <IconButton size='small' sx={{backgroundColor: 'lightgrey'}} onClick={handleClick}><AddIcon fontSize='small' /></IconButton>
+        <Menu
+          anchorEl={anchor}
+          open={open}
+          onClose={handleClose}
+          sx={{maxHeight: 400}}
+        >
+          {allTags.map(tag => (
+            <div key={tag.id}><Tag tag={tag} handleClick={addTag}/></div>
+          ))}
+        </Menu>
       </Box>
     </Card>
   )
