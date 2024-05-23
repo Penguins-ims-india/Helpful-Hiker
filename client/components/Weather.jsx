@@ -8,7 +8,7 @@ const Weather = () => {
 
   // Get api/weather
   const getWeatherData = () => {
-    axios.get('api/weather')
+    axios.get('/weather')
     .then((response) => {
       // set state using setWeatherData
       setWeatherData(response.data);
@@ -25,15 +25,14 @@ const Weather = () => {
 
   // conversion to Fahrenheit
   const toFahrenheit = (celsius) => {
-    return (celsius * 9/5) + 32;
+    return Math.floor(((celsius * 9/5) + 32) * 100) / 100;
   };
 
   return (
-    <Box sx={styleOrangeBox}>
+    <Box >
       {weatherData ? (
         <div>
           <Typography
-            variant=''
             sx={{
               fontFamily: '',
             }}
@@ -41,7 +40,6 @@ const Weather = () => {
             Current Temperature: {toFahrenheit(weatherData.days[0].temp)}°F
           </Typography>
           <Typography
-            variant=''
             sx={{
               fontFamily: '',
             }}
@@ -51,7 +49,6 @@ const Weather = () => {
         </div>
       ) : (
         <Typography
-        variant=''
         sx={{
           fontFamily: '',
         }}

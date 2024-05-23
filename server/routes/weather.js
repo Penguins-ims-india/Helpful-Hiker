@@ -4,7 +4,7 @@ const weather = express.Router();
 const { GOOGLE_MAPS_API_KEY, VISUAL_CROSSING_API_KEY } = process.env;
 
 weather.get('/weather', (req, res) => {
-  const userIpAddress = req.clientIp;
+  const userIpAddress = req.clientIp;//I will fix today
   axios.get(`http://ip-api.com/json/${userIpAddress}?fields=city,region,countryCode`)
     .then((ipResponse) => {
 
