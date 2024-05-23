@@ -3,12 +3,12 @@ import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '1000px',
-  height: '1000px'
+  height: '1000px',
 };
 
-const center = {
+const defaultCenter = {
   lat: 29.9511,
-  lng: -90.0715
+  lng: -90.0715,
 };
 
 function Map() {
