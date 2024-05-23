@@ -127,8 +127,8 @@ const PackingListItem = sequelize.define('PackingListItem', {
   },
 });
 
-// 1:1 relationship between User and PackingList
-// aka 1 User has 1 PackingList
+// 1:N relationship between User and PackingList
+// aka User can have many PackingLists
 // add foreignKey to specify which column in PackingList references User table
 User.hasMany(PackingList, { foreignKey: 'userId' });
 // PackingList belongs to user
