@@ -111,6 +111,17 @@ hikes.delete('/hikes', (req, res) => {
     });
 });
 
+hikes.get('/hikes/tags', (req, res) => {
+  Tags.findAll()
+    .then((tags) => {
+      res.send(tags);
+    })
+    .catch((err) => {
+      console.error('Could not get Tags ', err);
+      res.sendStatus(500);
+    })
+})
+
 hikes.post('/hikes/:id/tags', (req, res) => {
   const { tag } = req.body;
   const { id } = req.params;
