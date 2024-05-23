@@ -35,6 +35,9 @@ function Map() {
     setMap(null);
   }, []);
 
+  const currentCenter = coords
+    ? { lat: coords.latitude, lng: coords.longitude }
+    : defaultCenter;
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
