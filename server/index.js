@@ -3,6 +3,7 @@ const path = require('path');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const { User } = require('./database');
+const isAuthenticated = require('./helpers/isAuthenticated')
 
 // const { Router } = require('express'); commented these 2 lines and the logout part at the bottom
 // const tester = Router();
@@ -60,7 +61,8 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 
-app.get('*', (req, res) => {
+app.get('*', isAuthenticated ,(req, res) => {
+
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
