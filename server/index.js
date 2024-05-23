@@ -57,7 +57,12 @@ app.get(
   })
 );
 
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
 app.get('*', isAuthenticated ,(req, res) => {
+
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
