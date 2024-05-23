@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const hikes = express.Router();
-const { Hike } = require('../database');
+const { Hike, Tags } = require('../database');
 const { GOOGLE_MAPS_API_KEY } = process.env;
 
 // routes for hike related requests
@@ -59,7 +59,7 @@ hikes.post('/hikes', (req, res) => {
 hikes.get('/hikes', (req, res) => {
 
   // find all hikes in database
-  Hike.findAll()
+  Hike.findAll({include: Tags})
     .then((hikes) => {
       res.status(200).send(hikes);
     })
@@ -110,5 +110,66 @@ hikes.delete('/hikes', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+hikes.post('/hikes/:id/tags', (req, res) => {
+  const { tag } = req.body;
+  const { id } = req.params;
+  let foundHike;
+  Hike.findByPk(id)
+    .then((hike) => {
+      if (hike) {
+        foundHike = hike;
+        return Tags.findCreateFind({where: tag});
+      }
+      else {
+        throw 'Hike not found';
+      }
+    })
+    .then((tag) => {
+      foundHike.addTag(tag[0])
+    })
+    .then(() => {
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.error('Failed to add tag: ', err);
+      if (err === 'Hike not found') {
+        res.sendStatus(404);
+      }
+      else {
+        res.sendStatus(500)
+      }
+    });
+})
+
+hikes.delete('/hikes/:id/tags/:tagID', (req, res) => {
+  const { id, tagID } = req.params;
+  Hike.findByPk(id)
+    .then((hike) => {
+      if (hike) {
+        return hike.removeTag(tagID)
+      }
+      else {
+        throw 'Hike not found'
+      }
+    })
+    .then((data) => {
+      if (data > 0) {
+        res.sendStatus(200);
+      }
+      else {
+        res.sendStatus(404)
+      }
+    })
+    .catch((err) => {
+      console.error('Failed to add tag: ', err);
+      if (err === 'Hike not found') {
+        res.sendStatus(404);
+      }
+      else {
+        res.sendStatus(500)
+      }
+    });
+})
 
 module.exports = hikes;
