@@ -29,7 +29,7 @@ packingList.post('/packingList', (req, res) => {
   PackingList.create({ userId, name })
   // set status to 201 and send new packinglist
     .then(() => {
-      res.status(201);
+      res.sendStatus(201);
     })
     // if the query fails, send 500 sc and error message
     .catch((err) => {

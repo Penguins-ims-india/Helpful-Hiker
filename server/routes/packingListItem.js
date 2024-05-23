@@ -3,7 +3,7 @@ const packingListItem = express.Router();
 const { PackingListItem } = require('../database/index.js');
 
 // get all items for a specific packing list
-// endpoint = /packingListItem/:packingListId to get all items for a specific packing list thru its packingListId
+// endpoint = /packingListItem/:id to get all items for a specific packing list thru its packingListId
 packingListItem.get('/packingListItem/:id', (req, res) => {
   const { id } = req.params;
   PackingListItem.findAll({ where: { packingListId: id } })
@@ -21,7 +21,7 @@ packingListItem.post('/packingListItem/:id', (req, res) => {
   const { name, quantity, packed, packingListId } = req.body;
   PackingListItem.create({ name, quantity, packed, packingListId })
   .then(() => {
-    res.status(201);
+    res.sendStatus(201);
   })
   .catch((err) => {
     console.error('Error creating new packing list item', err);
