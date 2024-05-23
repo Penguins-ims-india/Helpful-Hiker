@@ -12,9 +12,17 @@ const defaultCenter = {
 };
 
 function Map() {
-  const { isLoaded } = useJsApiLoader({
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: false,
+      },
+      userDecisionTimeout: 5000,
+    });
+
+  const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyAHStHEGequcbfK849wQ4v3IUgyFpNuEIM'
+    googleMapsApiKey: 'AIzaSyAHStHEGequcbfK849wQ4v3IUgyFpNuEIM', // Replace with your API key
   });
 
   const [map, setMap] = useState(null);
