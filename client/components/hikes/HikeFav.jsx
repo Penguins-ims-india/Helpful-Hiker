@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, TextField, Card, CardActionArea, Typography, Box } from '@mui/material';
+import { Button, TextField, Card, CardActionArea, Typography, Box, IconButton} from '@mui/material';
+import Tag from './Tag.jsx';
+import AddIcon from '@mui/icons-material/Add';
 
 const HikeFav = ({ favHike, getFavHikes }) => {
 
   const [newRating, setNewRating] = useState('');
-
   const { description } = favHike;
 
   const removeFavHike = () => {
-
     // delete req to the db
     axios.delete('/hikes', {
       data: {
@@ -22,7 +22,6 @@ const HikeFav = ({ favHike, getFavHikes }) => {
       .catch((err) => {
         console.error('Failed to remove favorite hike', err);
       })
-
   }
 
   const handleNewRating = (e) => {
@@ -30,7 +29,6 @@ const HikeFav = ({ favHike, getFavHikes }) => {
   }
 
   const rateFavHike = () => {
-
     // patch req to the db
     axios.patch('/hikes', {
       hike: {
@@ -47,6 +45,9 @@ const HikeFav = ({ favHike, getFavHikes }) => {
       })
   }
 
+  const addTag = () => {};
+  const deleteTag = () => {};
+
   return (
     <Card variant='outlined' sx={{width: 3/4, borderColor: 'black'}}>
       <Typography variant='h4'>
@@ -59,19 +60,24 @@ const HikeFav = ({ favHike, getFavHikes }) => {
         {`Rating:  ${favHike.rating}`}
       </Typography>
       <CardActionArea sx={{marginBottom: 2, alignContent: 'space-evenly'}}>
-        <Box></Box>
-        <TextField
-          id="filled-basic"
-          label="Rate this hike"
-          variant="filled"
-          value={ newRating }
-          onChange={ handleNewRating }
-          type="text"
-          placeholder="up to 5"
-        />
-        <Button variant="contained" onClick={ rateFavHike } type="button">Rate</Button>
-        <Button variant="contained" color='error' onClick={ removeFavHike } type="button">Remove</Button>
+        <Box>
+          <TextField
+            id="filled-basic"
+            label="Rate this hike"
+            variant="filled"
+            value={ newRating }
+            onChange={ handleNewRating }
+            type="text"
+            placeholder="up to 5"
+          />
+          <Button variant="contained" onClick={ rateFavHike } type="button">Rate</Button>
+          <Button variant="contained" color='error' onClick={ removeFavHike } type="button">Remove</Button>
+        </Box>
       </CardActionArea>
+      <Box sx={{marginBottom: 1}}>
+        {favHike.tags.map(tag => <Tag tag={tag} />)}
+        <IconButton size='small' sx={{backgroundColor: 'lightgrey'}}><AddIcon fontSize='small'/></IconButton>
+      </Box>
     </Card>
   )
 }
