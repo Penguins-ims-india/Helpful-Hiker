@@ -92,8 +92,6 @@ const PackingList = () => {
     .then(() => {
       // no item is being edited
       setEditing(null);
-      // clears the editing input field
-      setEditingName('');
       // get req to /packingList to get the updated packing lists
       axios.get('/packingList')
         .then((response) => {
