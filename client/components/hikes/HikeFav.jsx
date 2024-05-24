@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, List, ListItem, ListItemText, TextField } from '@mui/material';
+import Weather from '../Weather.jsx';
 
 const HikeFav = ({ favHike, getFavHikes }) => {
 
@@ -11,7 +12,7 @@ const HikeFav = ({ favHike, getFavHikes }) => {
   const removeFavHike = () => {
 
     // delete req to the db
-    axios.delete('/hikes', {
+    axios.delete('/api/hikes', {
       data: {
         description,
       }
@@ -32,7 +33,7 @@ const HikeFav = ({ favHike, getFavHikes }) => {
   const rateFavHike = () => {
 
     // patch req to the db
-    axios.patch('/hikes', {
+    axios.patch('/api/hikes', {
       hike: {
         description,
         rating: newRating,
@@ -65,6 +66,7 @@ const HikeFav = ({ favHike, getFavHikes }) => {
             primary={`Rating:  ${favHike.rating}`}
           />
         </ListItem>
+        <Weather />
       </List>
       <TextField 
         id="filled-basic"

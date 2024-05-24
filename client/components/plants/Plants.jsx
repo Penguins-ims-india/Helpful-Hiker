@@ -8,7 +8,7 @@ const Plants = () => {
   const [plantArr, setPlantArr] = useState([]);
 
   const loadPlants = () => {
-    axios.get('/plants')
+    axios.get('/api/plants')
       .then(({data}) => {
         // console.log(data);
         setPlantArr(data);
