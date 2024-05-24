@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, TextField, Card, Typography, Box, IconButton, Menu, MenuItem} from '@mui/material';
+import { Button, TextField, Card, Typography, Box, IconButton, Menu, MenuItem, Divider} from '@mui/material';
 import Tag from './Tag.jsx';
 import AddIcon from '@mui/icons-material/Add';
 
 const HikeFav = ({ favHike, getFavHikes, allTags }) => {
 
   const [newRating, setNewRating] = useState('');
+  const [newTag, setNewTag] = useState('');
   const [anchor, setAnchor] = useState(null);
   const open = Boolean(anchor);
   const { description, id } = favHike;
@@ -69,6 +70,10 @@ const HikeFav = ({ favHike, getFavHikes, allTags }) => {
     setAnchor(null)
   }
 
+  const handleInput = (e) => {
+    setNewTag(e.target.value);
+  }
+
   return (
     <Card variant='outlined' sx={{width: 3/4, borderColor: 'black'}}>
       <Typography variant='h4'>
@@ -105,6 +110,13 @@ const HikeFav = ({ favHike, getFavHikes, allTags }) => {
           {allTags.map(tag => (
             <div key={tag.id}><Tag tag={tag} handleClick={addTag}/></div>
           ))}
+          <Divider sx={{margin: 1}} />
+          <TextField
+            placeholder='New Tag'
+            value={newTag}
+            onChange={handleInput}
+          />
+          <MenuItem onClick={() => {addTag({name: newTag})}}>+</MenuItem>
         </Menu>
       </Box>
     </Card>
