@@ -20,7 +20,7 @@ const HikeSearch = () => {
 
   const searchHikes = () => {
 
-    axios.post('/hikeSearch', {
+    axios.post('/api/hikeSearch', {
       search: {
         location: input,
       }
@@ -34,7 +34,7 @@ const HikeSearch = () => {
   }
 
   const getFavHikes = () => {
-    axios.get('/hikes')
+    axios.get('/api/hikes')
       .then(({ data }) => {
         setFavHikes(data);
         return axios.get('/hikes/tags')

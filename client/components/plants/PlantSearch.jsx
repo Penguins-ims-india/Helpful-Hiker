@@ -10,7 +10,7 @@ const PlantSearch = ({updatePlantList}) => {
   }
   
   const postPlant = () => {
-    axios.post('/plants', {
+    axios.post('/api/plants', {
       plantName: plantInput
     })
       .then(({ data }) => {

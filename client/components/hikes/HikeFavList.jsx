@@ -1,5 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
-import axios from 'axios';
+import React from 'react';
 import HikeFav from './HikeFav.jsx';
 
 const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {

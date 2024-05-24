@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, TextField, Card, Typography, Box, IconButton, Menu, MenuItem, Divider} from '@mui/material';
+import Weather from '../Weather.jsx';
 import Tag from './Tag.jsx';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -14,7 +15,7 @@ const HikeFav = ({ favHike, getFavHikes, allTags }) => {
 
   const removeFavHike = () => {
     // delete req to the db
-    axios.delete('/hikes', {
+    axios.delete('/api/hikes', {
       data: {
         description,
       }
@@ -33,7 +34,7 @@ const HikeFav = ({ favHike, getFavHikes, allTags }) => {
 
   const rateFavHike = () => {
     // patch req to the db
-    axios.patch('/hikes', {
+    axios.patch('/api/hikes', {
       hike: {
         description,
         rating: newRating,
@@ -49,13 +50,13 @@ const HikeFav = ({ favHike, getFavHikes, allTags }) => {
   }
 
   const deleteTag = (tagID) => {
-    axios.delete(`/hikes/${id}/tags/${tagID}`)
+    axios.delete(`/api/hikes/${id}/tags/${tagID}`)
       .then(getFavHikes)
       .catch((err) => {console.error('Cannot delete tag: ', err)})
   };
 
   const addTag = (tag) => {
-    axios.post(`/hikes/${favHike.id}/tags`, {tag})
+    axios.post(`/api/hikes/${favHike.id}/tags`, {tag})
       .then(getFavHikes)
       .catch((err) => {
         console.error('Could not add tag to hike ', err)
