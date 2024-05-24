@@ -16,6 +16,7 @@ const safeTree = Router();
 safeTree.all('/hikes', hikes);
 safeTree.post('/hikeSearch', hikes);
 safeTree.all('/hikes/tags', hikes);
+safeTree.all('/hikes/tags/:tagID', hikes);
 safeTree.post('/hikes/:id/tags', hikes);
 safeTree.delete('/hikes/:id/tags/:tagID', hikes);
 

@@ -183,4 +183,16 @@ hikes.delete('/hikes/:id/tags/:tagID', (req, res) => {
     });
 })
 
+hikes.get('/hikes/tags/:tagID', (req, res) => {
+  const { tagID } = req.params;
+  Tags.findByPk(tagID, {include: Hike})
+    .then((tags) => {
+      res.send(tags)
+    })
+    .catch((err) => {
+      console.error('Failed to find hikes with tag: ', err);
+      res.sendStatus(500);
+    })
+})
+
 module.exports = hikes;
