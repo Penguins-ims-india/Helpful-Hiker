@@ -61,7 +61,22 @@ hikes.get('/hikes', (req, res) => {
   // find all hikes in database
   Hike.findAll({include: Tags})
     .then((hikes) => {
-      res.status(200).send(hikes);
+      // reduce hikes to an object of tag arrays
+      const sortedByTags = hikes.reduce((acc, cur) => {
+        // add hike to all hikes
+        acc.all.push(cur)
+        // for each tag add hike to that tag's array
+        cur.tags.forEach((tag) => {
+          // if the tag array doesn't exist create it
+          if (!acc.hasOwnProperty(tag.name)) {
+            acc[tag.name] = [];
+          }
+          // add hike to tag array
+          acc[tag.name].push(cur)
+        })
+        return acc;
+      }, {all: []})
+      res.status(200).send(sortedByTags);
     })
     .catch((err) => {
       console.error('Failed to get hikes from database: ', err);
@@ -110,17 +125,6 @@ hikes.delete('/hikes', (req, res) => {
       res.sendStatus(500);
     });
 });
-
-hikes.get('/hikes/tags', (req, res) => {
-  Tags.findAll()
-    .then((tags) => {
-      res.send(tags);
-    })
-    .catch((err) => {
-      console.error('Could not get Tags ', err);
-      res.sendStatus(500);
-    })
-})
 
 hikes.post('/hikes/:id/tags', (req, res) => {
   const { tag } = req.body;
@@ -181,18 +185,6 @@ hikes.delete('/hikes/:id/tags/:tagID', (req, res) => {
         res.sendStatus(500)
       }
     });
-})
-
-hikes.get('/hikes/tags/:tagID', (req, res) => {
-  const { tagID } = req.params;
-  Tags.findByPk(tagID, {include: Hike})
-    .then((tags) => {
-      res.send(tags)
-    })
-    .catch((err) => {
-      console.error('Failed to find hikes with tag: ', err);
-      res.sendStatus(500);
-    })
 })
 
 module.exports = hikes;
