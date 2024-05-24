@@ -32,6 +32,7 @@ const Home = () => {
       .catch((err) => console.error('Could not get Feed:', err));
   };
   useEffect(() => {
+    console.log(obRef)
     getObservations(), [obRef];
   });
 
