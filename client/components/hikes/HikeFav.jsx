@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, List, ListItem, ListItemText, TextField } from '@mui/material';
+import { Button, TextField, Card, CardActionArea, Typography, Box } from '@mui/material';
 
 const HikeFav = ({ favHike, getFavHikes }) => {
 
@@ -48,36 +48,31 @@ const HikeFav = ({ favHike, getFavHikes }) => {
   }
 
   return (
-    <div>
-      <List>
-        <ListItem>
-          <ListItemText
-            primary={`Name:  ${favHike.description}`}
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText
-            primary={`Location:  ${favHike.location}`}
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText
-            primary={`Rating:  ${favHike.rating}`}
-          />
-        </ListItem>
-      </List>
-      <TextField 
-        id="filled-basic"
-        label="Rate this hike"
-        variant="filled"
-        value={ newRating }
-        onChange={ handleNewRating }
-        type="text"
-        placeholder="up to 5"
-      />
-      <Button variant="outlined" onClick={ rateFavHike } type="button">Rate</Button>
-      <Button variant="outlined" onClick={ removeFavHike } type="button">Remove</Button>
-    </div>
+    <Card variant='outlined' sx={{width: 3/4, borderColor: 'black'}}>
+      <Typography variant='h4'>
+        {favHike.description}
+      </Typography>
+      <Typography variant='p'>
+        {favHike.location}
+      </Typography>
+      <Typography variant='h6' gutterBottom>
+        {`Rating:  ${favHike.rating}`}
+      </Typography>
+      <CardActionArea sx={{marginBottom: 2, alignContent: 'space-evenly'}}>
+        <Box></Box>
+        <TextField
+          id="filled-basic"
+          label="Rate this hike"
+          variant="filled"
+          value={ newRating }
+          onChange={ handleNewRating }
+          type="text"
+          placeholder="up to 5"
+        />
+        <Button variant="contained" onClick={ rateFavHike } type="button">Rate</Button>
+        <Button variant="contained" color='error' onClick={ removeFavHike } type="button">Remove</Button>
+      </CardActionArea>
+    </Card>
   )
 }
 
