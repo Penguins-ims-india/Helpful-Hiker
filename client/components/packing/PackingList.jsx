@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, Typography, TextField, List, ListItem, IconButton } from '@mui/material';
+import { Box, Button, Typography, TextField, List, ListItem, ListItemText, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import LinkIcon from '@mui/icons-material/Link';
+import EditIcon from '@mui/icons-material/Edit';
 import { Link } from 'react-router-dom';
 
 const PackingList = () => {
@@ -14,6 +14,12 @@ const PackingList = () => {
   // newListName = variable that holds the current state aka empty string
   // setNewListName = used to update newListName
   const [newListName, setNewListName] = useState('');
+  // editing = variable that holds the current state aka null
+  // setEditing = used to update editing
+  const [editing, setEditing] = useState(null);
+  // editingName = variable that holds the current state aka empty string
+  // setEditingName = used to update editingName
+  const [editingName, setEditingName] = useState('');
 
   // useEffect = hook which is used to make a get request to /packingList
   // whatever passed in is executed after every render
@@ -70,21 +76,37 @@ const PackingList = () => {
       })
   };
 
+  // set up state for editing a specific packing list
+  const handleEdit = (id, name) => {
+    // updates the state to whatever item is being edited by its id
+    setEditing(id);
+    // sets the name state to the current name
+    setEditingName(name);
+  };
+
   // update a packing list by its id
-  const handleUpdate = (id, newName) => {
+  const handleUpdate = (id) => {
     // send put req to /packingList/id taking in the specific id of the list we wanna update
-    // req body has a name prop which is set to newName
-    axios.put(`/packingList/${id}`, { name: newName })
-      .then(() => {
-        // map through the current packingLists
-        // check each list's id and see if its equal to the id given
-        // if it is, create a new object where we make a copy of the current list and update the name property to newName
-        // if its not true, leave the list alone
-        setPackingLists(packingLists.map(list => list.id === id ? { ...list, name: newName } : list));
-      })
-      .catch((err) => {
-        console.error('Error updating packing list', err);
-      });
+    // req body has a name prop which is set to the current val of editingName
+    axios.put(`/packingList/${id}`, { name: editingName })
+    .then(() => {
+      // no item is being edited
+      setEditing(null);
+      // clears the editing input field
+      setEditingName('');
+      // get req to /packingList to get the updated packing lists
+      axios.get('/packingList')
+        .then((response) => {
+          // assign data prop to packingLists by using setPackingLists
+          setPackingLists(response.data);
+        })
+        .catch((err) => {
+          console.error('Error getting updated packing list', err);
+        })
+    })
+    .catch((err) => {
+      console.error('Error updating packing list', err);
+    })
   };
 
   return (
@@ -105,21 +127,38 @@ const PackingList = () => {
       </Box>
       <List>
         {/* map function to iterate over packingLists */}
+        {/* for each list, return a listitem component */}
         {packingLists.map((list) => (
-          // give it a key because there will be an error in the browser if there isnt one
+          // give it a key because there will be an error in the browser if not
             <ListItem key={list.id}>
-              {/* create a link to the specific packing list that will eventually hold all my packing list items */}
-              <Link to={`/packing-lists/${list.id}`}>
-                {/* the link to the specific packing list items will be used through the link icon */}
-                <LinkIcon />
-              </Link>
-              <TextField
-                // set value to current name of list
-                value={list.name}
-                // if the input value changes, call handleUpdate with the id of the list and the new value that was put in the text field aka whatever someone types
-                onChange={(event) => handleUpdate(list.id, event.target.value)}
-              />
-              {/* if the trash can icon is clicked, call handleDelete on the list that was clicked */}
+              {/* if the current item is being edited aka if editing = list.id aka current list item is being edited */}
+              {editing === list.id ? (
+                // render a TextField component so the user can type a new name for the packing list
+                // set value to be the editingName state variable
+                // onChange will update editingName to whatever someone typed
+                <TextField
+                  value={editingName}
+                  onChange={(event) => setEditingName(event.target.value)}
+                />
+                // if it is not being edited, render a link to the packing lists
+              ) : (
+                // this is the link from when you click on the specific item
+                <Link to={`/packing-lists/${list.id}`}>
+                  {/* make the name of the packing list as the text of the link */}
+                  <ListItemText primary={list.name} />
+                </Link>
+              )}
+              {/* if the current list item is being edited */}
+              {editing === list.id ? (
+                // when the Save button is clicked, call handleUpdate with the list id to save the changes
+                <Button onClick={() => handleUpdate(list.id)} variant="contained">Save</Button>
+              ) : (
+                // if it isn't being edited, make a button with the edit icon where it can handle edits of the name
+                <IconButton onClick={() => handleEdit(list.id, list.name)}>
+                  <EditIcon />
+                </IconButton>
+              )}
+              {/* or can delete the list */}
               <IconButton onClick={() => handleDelete(list.id)}>
                 <DeleteIcon />
               </IconButton>
