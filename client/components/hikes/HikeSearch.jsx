@@ -61,7 +61,7 @@ const HikeSearch = () => {
         </Typography>
         <HikeResults results={ results } getFavHikes={ getFavHikes }/>
       </div>
-
+      
       <div className="hike-favs">
         <Typography variant="h5" gutterBottom>
           Favorite Trails

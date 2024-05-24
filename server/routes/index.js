@@ -20,6 +20,7 @@ safeTree.all('/plants', plants);
 safeTree.all('/plants/:id', plants);
 
 safeTree.all('/weather', weather);
+safeTree.all('/weather/:location', weather);
 
 safeTree.all('/wildlife', wildlife);
 

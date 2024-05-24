@@ -24,7 +24,13 @@ const HikeResult = ({ hike, getFavHikes }) => {
         console.error('Failed to add favorite hike', err);
       });
   }
-
+  const getLocation = () => {
+    axios.get(`/weather/${location}`)
+    .then(({data}) => {
+      console.log(data)
+    })
+  }
+  
   return (
     <div>
       <List>
@@ -43,11 +49,11 @@ const HikeResult = ({ hike, getFavHikes }) => {
             primary={`Rating:  ${rating}`}
           />
         </ListItem>
-        {/* <ListItem>
+        <ListItem>
           <Weather 
             
           />
-        </ListItem> */}
+        </ListItem>
       </List>
       <Button variant="outlined" onClick={ addFavHike } type="button">Add Favorite</Button>
     </div>
