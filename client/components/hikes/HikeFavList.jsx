@@ -2,20 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import axios from 'axios';
 import HikeFav from './HikeFav.jsx';
 
-const HikeFavList = ({ favHikes, getFavHikes }) => {
-
-  const [tags, setTags] = useState([]);
-  const tagsRef = useRef(tags)
-  
-  useEffect(() => {
-    axios.get('/hikes/tags')
-      .then(({data}) => {
-        setTags(data);
-      })
-      .catch((err) => {
-        console.error('Cannot get all tags: ', err);
-      })
-  }, tagsRef)
+const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
 
   return (
     <div className="fav-hike-list">
@@ -26,7 +13,7 @@ const HikeFavList = ({ favHikes, getFavHikes }) => {
               favHike={ favHike }
               key={`${favHike}-${i}`}
               getFavHikes={ getFavHikes }
-              allTags={tags}
+              allTags={allTags}
             />
           )
         })
