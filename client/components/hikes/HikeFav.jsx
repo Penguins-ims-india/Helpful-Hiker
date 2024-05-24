@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, TextField, Card, Typography, Box, IconButton, Menu, MenuItem, Divider} from '@mui/material';
+import Weather from '../Weather.jsx';
 import Tag from './Tag.jsx';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -14,7 +15,7 @@ const HikeFav = ({ favHike, getFavHikes, allTags }) => {
 
   const removeFavHike = () => {
     // delete req to the db
-    axios.delete('/hikes', {
+    axios.delete('/api/hikes', {
       data: {
         description,
       }
@@ -33,7 +34,7 @@ const HikeFav = ({ favHike, getFavHikes, allTags }) => {
 
   const rateFavHike = () => {
     // patch req to the db
-    axios.patch('/hikes', {
+    axios.patch('/api/hikes', {
       hike: {
         description,
         rating: newRating,
