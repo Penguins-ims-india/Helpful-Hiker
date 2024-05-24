@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Button, List, ListItem, ListItemText } from '@mui/material';
+import Weather from '../Weather.jsx';
 
 const HikeResult = ({ hike, getFavHikes }) => {
 
@@ -23,7 +24,13 @@ const HikeResult = ({ hike, getFavHikes }) => {
         console.error('Failed to add favorite hike', err);
       });
   }
-
+  const getLocation = () => {
+    axios.get(`/weather/${location}`)
+    .then(({data}) => {
+      console.log(data)
+    })
+  }
+  
   return (
     <div>
       <List>
@@ -40,6 +47,11 @@ const HikeResult = ({ hike, getFavHikes }) => {
         <ListItem>
           <ListItemText
             primary={`Rating:  ${rating}`}
+          />
+        </ListItem>
+        <ListItem>
+          <Weather 
+            
           />
         </ListItem>
       </List>
