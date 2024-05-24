@@ -10,7 +10,7 @@ const HikeResult = ({ hike, getFavHikes }) => {
   const addFavHike = () => {
 
     // post to the db
-    axios.post('/hikes', {
+    axios.post('/api/hikes', {
       hike: {
         description,
         location,
@@ -25,7 +25,7 @@ const HikeResult = ({ hike, getFavHikes }) => {
       });
   }
   const getLocation = () => {
-    axios.get(`/weather/${location}`)
+    axios.get(`/api/weather/${location}`)
     .then(({data}) => {
       console.log(data)
     })

@@ -24,7 +24,7 @@ const Home = () => {
 
   const getObservations = () => {
     axios
-      .get(`/observations`)
+      .get(`/api/observations`)
       .then(({ data }) => {
         setObservations(data);
         // setObservations((...prevData) => (prevData = data));

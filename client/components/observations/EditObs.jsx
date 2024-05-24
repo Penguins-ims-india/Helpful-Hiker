@@ -32,7 +32,7 @@ const EditObs = ({ observation, deleteObservation, getObservations }) => {
   };
   const updateReview = () => {
     axios
-      .patch(`/observations/${observation.id}`, {
+      .patch(`/api/observations/${observation.id}`, {
         observation: {
           message: message,
           isSafe: !observation.isSafe,
