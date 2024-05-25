@@ -10,11 +10,17 @@ const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
 
   const changeFilter = (newFilter) => {
     if (favHikes.hasOwnProperty(newFilter)) { setFilter(newFilter); }
-  }
+  };
 
   const handleChange = (e) => {
     setInput(e.target.value);
-  }
+  };
+
+  const handleSubmit = (e) => {
+    if (e.type === 'keydown' && e.which !== 13) { return }
+    changeFilter(input);
+    setInput('');
+  };
 
   const filteredHikes = favHikes[filter] || [];
 
@@ -24,6 +30,7 @@ const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
           value={input}
           placeholder='Search by tag'
           onChange={handleChange}
+          onKeyDown={handleSubmit}
         />
         <Button onClick={() => {changeFilter(input)}}>Search</Button>
         {filter === 'all' ? <></> : <Button onClick={() => {changeFilter('all')}}>Clear Filter</Button>}
