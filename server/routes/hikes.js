@@ -61,7 +61,22 @@ hikes.get('/hikes', (req, res) => {
   // find all hikes in database
   Hike.findAll({include: Tags})
     .then((hikes) => {
-      res.status(200).send(hikes);
+      // reduce hikes to an object of tag arrays
+      const sortedByTags = hikes.reduce((acc, cur) => {
+        // add hike to all hikes
+        acc.all.push(cur)
+        // for each tag add hike to that tag's array
+        cur.tags.forEach((tag) => {
+          // if the tag array doesn't exist create it
+          if (!acc.hasOwnProperty(tag.name)) {
+            acc[tag.name] = [];
+          }
+          // add hike to tag array
+          acc[tag.name].push(cur)
+        })
+        return acc;
+      }, {all: []})
+      res.status(200).send(sortedByTags);
     })
     .catch((err) => {
       console.error('Failed to get hikes from database: ', err);
@@ -169,6 +184,17 @@ hikes.delete('/hikes/:id/tags/:tagID', (req, res) => {
       else {
         res.sendStatus(500)
       }
+    });
+})
+
+hikes.get('/hikes/tags', (req, res) => {
+  Tags.findAll()
+    .then((tags) => {
+      res.send(tags)
+    })
+    .catch((err) => {
+      console.log('Failed to get all tags: ', err);
+      res.sendStatus(500);
     });
 })
 
