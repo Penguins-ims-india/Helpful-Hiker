@@ -50,8 +50,7 @@ const HikeResult = ({ hike, getFavHikes }) => {
           />
         </ListItem>
         <ListItem>
-          <Weather 
-            
+          <Weather
           />
         </ListItem>
       </List>
