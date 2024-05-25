@@ -6,6 +6,10 @@ const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
 
   const [filter, setFilter] = useState('all')
 
+  const changeFilter = (newFilter) => {
+    if (favHikes.hasOwnProperty(newFilter)) { setFilter(newFilter); }
+  }
+
   const filteredHikes = favHikes[filter] || [];
 
   return (
@@ -18,6 +22,7 @@ const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
               key={`${favHike}-${i}`}
               getFavHikes={ getFavHikes }
               allTags={allTags}
+              changeFilter={changeFilter}
             />
           )
         })

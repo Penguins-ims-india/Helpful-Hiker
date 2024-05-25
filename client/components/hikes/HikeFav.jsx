@@ -5,7 +5,7 @@ import Weather from '../Weather.jsx';
 import Tag from './Tag.jsx';
 import AddIcon from '@mui/icons-material/Add';
 
-const HikeFav = ({ favHike, getFavHikes, allTags }) => {
+const HikeFav = ({ favHike, getFavHikes, allTags, changeFilter }) => {
 
   const [newRating, setNewRating] = useState('');
   const [newTag, setNewTag] = useState('');
@@ -100,7 +100,7 @@ const HikeFav = ({ favHike, getFavHikes, allTags }) => {
             <Button variant="contained" color='error' onClick={ removeFavHike }>Remove</Button>
       </Box>
       <Box>
-        {favHike.tags.map(tag => <Tag tag={tag} deleteTag={deleteTag} key={tag.id}/>)}
+        {favHike.tags.map(tag => <Tag tag={tag} deleteTag={deleteTag} changeFilter={changeFilter} key={tag.id}/>)}
         <IconButton size='small' sx={{backgroundColor: 'lightgrey'}} onClick={handleClick}><AddIcon fontSize='small' /></IconButton>
         <Menu
           anchorEl={anchor}
