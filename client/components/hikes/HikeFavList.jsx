@@ -10,25 +10,6 @@ const HikeFavList = ({ favHikes, getFavHikes }) => {
 
   return (
     <>
-    {/* <div className="hike-date-form">
-        <TextField
-          id="filled-basic"
-          variant="filled"
-          value={ date }
-          onChange={ handleDateInput }
-          type="text"
-          placeholder="Start Date"
-          />
-        <TextField
-          id="filled-basic"
-          variant="filled"
-          value={ date }
-          onChange={ handleDateInput }
-          type="text"
-          placeholder="End Date"
-          />
-        <Button variant="outlined" type="button">Add</Button>
-      </div> */}
       <div >
       {
         favHikes.map((favHike, i) => {
