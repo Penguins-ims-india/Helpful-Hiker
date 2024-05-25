@@ -50,13 +50,13 @@ const HikeFav = ({ favHike, getFavHikes, allTags }) => {
   }
 
   const deleteTag = (tagID) => {
-    axios.delete(`/hikes/${id}/tags/${tagID}`)
+    axios.delete(`/api/hikes/${id}/tags/${tagID}`)
       .then(getFavHikes)
       .catch((err) => {console.error('Cannot delete tag: ', err)})
   };
 
   const addTag = (tag) => {
-    axios.post(`/hikes/${favHike.id}/tags`, {tag})
+    axios.post(`/api/hikes/${favHike.id}/tags`, {tag})
       .then(getFavHikes)
       .catch((err) => {
         console.error('Could not add tag to hike ', err)

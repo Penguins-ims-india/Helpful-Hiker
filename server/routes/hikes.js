@@ -187,4 +187,15 @@ hikes.delete('/hikes/:id/tags/:tagID', (req, res) => {
     });
 })
 
+hikes.get('/hikes/tags', (req, res) => {
+  Tags.findAll()
+    .then((tags) => {
+      res.send(tags)
+    })
+    .catch((err) => {
+      console.log('Failed to get all tags: ', err);
+      res.sendStatus(500);
+    });
+})
+
 module.exports = hikes;
