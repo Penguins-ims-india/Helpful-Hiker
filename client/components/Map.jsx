@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { useGeolocated } from 'react-geolocated';
+import { debounce } from 'lodash';
 
 const containerStyle = {
   width: '1000px',
@@ -12,19 +13,25 @@ const defaultCenter = {
   lng: -90.0715,
 };
 
+const mapOptions = {
+  disableDefaultUI: true,
+  zoomControl: true,
+  streetViewControl: false,
+  mapTypeControl: false,
+  fullscreenControl: false,
+  minZoom: 3,
+  maxZoom: 20,
+};
+
 function Map() {
-  const {
-    coords,
-    isGeolocationAvailable,
-    isGeolocationEnabled,
-    getPosition,
-    trigger,
-  } = useGeolocated({
-    positionOptions: {
-      enableHighAccuracy: true,
-    },
-    userDecisionTimeout: 5000,
-  });
+  const { coords, isGeolocationAvailable, isGeolocationEnabled, watchPosition, trigger } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      watchPosition: true,
+      userDecisionTimeout: 5000,
+    });
 
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
@@ -32,6 +39,7 @@ function Map() {
   });
 
   const [map, setMap] = useState(null);
+  const [currentPosition, setCurrentPosition] = useState(defaultCenter);
 
   const onLoad = useCallback((map) => {
     setMap(map);
@@ -43,13 +51,32 @@ function Map() {
 
   useEffect(() => {
     if (isGeolocationAvailable && isGeolocationEnabled) {
-      getPosition();
+      const watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCurrentPosition({ lat: latitude, lng: longitude });
+        },
+        (error) => console.error(error),
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+
+      return () => navigator.geolocation.clearWatch(watchId);
+    }
+  }, [isGeolocationAvailable, isGeolocationEnabled]);
+
     }
   }, [getPosition, isGeolocationAvailable, isGeolocationEnabled]);
 
-  const currentCenter = coords
-    ? { lat: coords.latitude, lng: coords.longitude }
-    : defaultCenter;
+    return () => {
+      if (map) {
+        google.maps.event.clearListeners(map, 'zoom_changed');
+      }
+    };
+  }, [map, handleZoomChanged]);
 
   if (loadError) {
     console.error('Error loading Google Maps API:', loadError);
@@ -65,26 +92,21 @@ function Map() {
 
   return isLoaded ? (
     <>
-      <p>
-        {currentCenter.lat}, {currentCenter.lng}
-      </p>
+      <p>{currentPosition.lat}, {currentPosition.lng}</p>
       {!isGeolocationEnabled && (
         <div>
-          <p>
-            Geolocation is not enabled. Please enable location services in your
-            browser settings.
-          </p>
+          <p>Geolocation is not enabled. Please enable location services in your browser settings.</p>
         </div>
       )}
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={currentCenter}
+        center={currentPosition}
         zoom={15}
+        options={mapOptions}
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
-        {coords && <Marker position={currentCenter} />}
-        <></>
+        <Marker position={currentPosition} />
       </GoogleMap>
     </>
   ) : (
