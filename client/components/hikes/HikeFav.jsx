@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, TextField, Card, Typography, Box, IconButton, Menu, MenuItem, Divider} from '@mui/material';
+import { Button, TextField, Card, Typography, Box, IconButton, Menu, MenuItem, Divider, Rating} from '@mui/material';
 import Weather from '../Weather.jsx';
 import Tag from './Tag.jsx';
 import AddIcon from '@mui/icons-material/Add';
+import HikeRating from './HikeRating.jsx';
 
 const HikeFav = ({ favHike, getFavHikes, allTags, changeFilter }) => {
 
-  const [newRating, setNewRating] = useState('');
   const [newTag, setNewTag] = useState('');
   const [anchor, setAnchor] = useState(null);
   const open = Boolean(anchor);
@@ -32,7 +32,7 @@ const HikeFav = ({ favHike, getFavHikes, allTags, changeFilter }) => {
     setNewRating(e.target.value);
   }
 
-  const rateFavHike = () => {
+  const rateFavHike = (newRating) => {
     // patch req to the db
     axios.patch('/api/hikes', {
       hike: {
@@ -43,7 +43,6 @@ const HikeFav = ({ favHike, getFavHikes, allTags, changeFilter }) => {
       .then(() => {
         getFavHikes();
       })
-      .then(() => { setNewRating('') })
       .catch((err) => {
         console.error('Failed to change rating', err);
       })
@@ -76,48 +75,41 @@ const HikeFav = ({ favHike, getFavHikes, allTags, changeFilter }) => {
   }
 
   return (
-    <Card variant='outlined' sx={{width: 3/4, borderColor: 'black'}}>
-      <Typography variant='h4'>
-        {favHike.description}
-      </Typography>
-      <Typography variant='p'>
-        {favHike.location}
-      </Typography>
-      <Box sx={{display:'flex', flexDirection:'row'}}>
-        <Typography variant='h6' gutterBottom>
-          {`Rating:  ${favHike.rating}`}
+    <Card variant='outlined' sx={{width: 3/4, borderColor: 'black', margin: 3}}>
+    <Box sx={{marginBottom:2, backgroundColor: 'lightgreen'}}>
+      <Box sx={{marginLeft: 1}}>
+        <Typography variant='h4'>
+          {favHike.description}
         </Typography>
-            <TextField
-              id="filled-basic"
-              label="Rate this hike"
-              variant="filled"
-              value={ newRating }
-              onChange={ handleNewRating }
-              type="text"
-              placeholder="up to 5"
-            />
-            <Button variant="contained" onClick={ rateFavHike }>Rate</Button>
-            <Button variant="contained" color='error' onClick={ removeFavHike }>Remove</Button>
+        <Typography variant='p'>
+          {favHike.location}
+        </Typography>
       </Box>
-      <Box>
-        {favHike.tags.map(tag => <Tag tag={tag} deleteTag={deleteTag} changeFilter={changeFilter} key={tag.id}/>)}
-        <IconButton size='small' sx={{backgroundColor: 'lightgrey'}} onClick={handleClick}><AddIcon fontSize='small' /></IconButton>
-        <Menu
-          anchorEl={anchor}
-          open={open}
-          onClose={handleClose}
-          sx={{maxHeight: 400}}
-        >
-          {allTags.map(tag => (
-            <div key={tag.id}><Tag tag={tag} handleClick={addTag}/></div>
-          ))}
-          <Divider sx={{margin: 1}} />
-          <TextField
-            placeholder='New Tag'
-            value={newTag}
-            onChange={handleInput}
-          />
-          <MenuItem onClick={() => {addTag({name: newTag})}}>+</MenuItem>
+    <Divider />
+    </Box>
+
+    <HikeRating savedRating={favHike.rating} rateFavHike={rateFavHike} />
+
+    <Divider />
+    <Box>
+      {favHike.tags.map(tag => <Tag tag={tag} deleteTag={deleteTag} changeFilter={changeFilter} key={tag.id}/>)}
+      <IconButton size='small' sx={{backgroundColor: 'lightgrey', margin: 1}} onClick={handleClick}><AddIcon fontSize='small' /></IconButton>
+      <Menu
+        anchorEl={anchor}
+        open={open}
+        onClose={handleClose}
+        sx={{maxHeight: 400}}
+      >
+        {allTags.map(tag => (
+          <div key={tag.id}><Tag tag={tag} handleClick={addTag}/></div>
+        ))}
+        <Divider sx={{margin: 1}} />
+        <TextField
+          placeholder='New Tag'
+          value={newTag}
+          onChange={handleInput}
+        />
+        <MenuItem onClick={() => {addTag({name: newTag})}}>+</MenuItem>
         </Menu>
       </Box>
     </Card>
