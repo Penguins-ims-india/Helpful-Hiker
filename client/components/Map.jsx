@@ -77,30 +77,6 @@ function Map() {
     [map]
   );
 
-  useEffect(() => {
-    if (map) {
-      map.addListener('zoom_changed', handleZoomChanged);
-    }
-
-    return () => {
-      if (map) {
-        google.maps.event.clearListeners(map, 'zoom_changed');
-      }
-    };
-  }, [map, handleZoomChanged]);
-
-  if (loadError) {
-    console.error('Error loading Google Maps API:', loadError);
-  }
-
-  if (!isGeolocationAvailable) {
-    console.error('Geolocation is not available on this browser.');
-  }
-
-  if (!isGeolocationEnabled) {
-    console.error('Geolocation is not enabled.');
-  }
-
   return isLoaded ? (
     <>
       <p>{currentPosition.lat}, {currentPosition.lng}</p>
