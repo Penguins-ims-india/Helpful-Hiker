@@ -17,7 +17,7 @@ const HikeSearch = () => {
 
   const searchHikes = () => {
 
-    axios.post('/hikeSearch', {
+    axios.post('/api/hikeSearch', {
       search: {
         location: input,
       }
@@ -31,7 +31,7 @@ const HikeSearch = () => {
   }
 
   const getFavHikes = () => {
-    axios.get('/hikes')
+    axios.get('/api/hikes')
       .then(({ data }) => {
         setFavHikes(data);
       })
@@ -61,7 +61,7 @@ const HikeSearch = () => {
         </Typography>
         <HikeResults results={ results } getFavHikes={ getFavHikes }/>
       </div>
-
+      
       <div className="hike-favs">
         <Typography variant="h5" gutterBottom>
           Favorite Trails

@@ -14,7 +14,7 @@ const WildLife = () => {
 
   const loadList = () => {
     axios
-      .get("/wildlife")
+      .get("/api/wildlife")
       .then((response) => {
         console.log("Frontend Axios Response:", response.data);
         updateList(response.data);
@@ -27,7 +27,7 @@ const WildLife = () => {
 
   const searchAnimal = () => {
     axios
-      .post(`/wildLifeSearch`, {
+      .post(`/api/wildLifeSearch`, {
         searchInput: emptyInput,
       })
       .then((response) => {

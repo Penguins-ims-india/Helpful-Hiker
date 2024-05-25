@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Typography } from '@mui/material';
-
+import Weather from '../Weather.jsx';
 import HikeSearch from './HikeSearch.jsx';
 
 const Hikes = () => {

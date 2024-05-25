@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(distPath));
 
-app.use('/', routes);
+app.use('/api', routes);
 
 app.listen(3000, () => {
   console.log(`\

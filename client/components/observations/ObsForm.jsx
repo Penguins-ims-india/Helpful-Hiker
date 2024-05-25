@@ -29,7 +29,7 @@ const ObsForm = ({ getObservations, handleClose }) => {
   const createObservation = () => {
     // const { message, isSafe } = observation;
     axios
-      .post(`/observations`, { observation: { message, isSafe: true } })
+      .post(`/api/observations`, { observation: { message, isSafe: true } })
       .then(() => {
         getObservations();
       })
