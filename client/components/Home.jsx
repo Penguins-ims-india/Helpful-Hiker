@@ -24,7 +24,7 @@ const Home = () => {
 
   const getObservations = () => {
     axios
-      .get(`/observations`)
+      .get(`/api/observations`)
       .then(({ data }) => {
         setObservations(data);
         // setObservations((...prevData) => (prevData = data));
@@ -32,7 +32,6 @@ const Home = () => {
       .catch((err) => console.error('Could not get Feed:', err));
   };
   useEffect(() => {
-    console.log(obRef)
     getObservations(), [obRef];
   });
 

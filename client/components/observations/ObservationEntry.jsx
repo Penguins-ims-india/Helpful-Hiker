@@ -34,7 +34,7 @@ const ObservationEntry = ({ observation, getObservations }) => {
 
   const updateReview = () => {
     axios
-      .patch(`/observations/${observation.id}`, {
+      .patch(`/api/observations/${observation.id}`, {
         observation: {
           isSafe: !observation.isSafe,
         },
@@ -46,7 +46,7 @@ const ObservationEntry = ({ observation, getObservations }) => {
   const deleteObservation = () => {
     const { message, isSafe } = observation;
     axios
-      .delete(`/observations/${observation.id}`, {
+      .delete(`/api/observations/${observation.id}`, {
         observation: { message, isSafe },
       })
       .then(getObservations)
