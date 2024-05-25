@@ -2,16 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Typography, Box } from '@mui/material';
 
-const Weather = () => {
+const Weather = ({location}) => {
   const [weatherData, setWeatherData] = useState(null);
   const weatherRef = useRef(weatherData);
-  console.log('wd', weatherData)
+  // console.log('wd', weatherData)
   // Get api/weather
   const getWeatherData = () => {
-    axios.get('/api/weather')
+    axios.get(`/api/weather/${location}`)
     .then((response) => {
+      console.log('r', response) 
       // set state using setWeatherData
-      setWeatherData(response.data);
+      setWeatherData(response.data.days[0].description);
     })
     .catch((err) => {
       console.error('Error getting weather data', err);
@@ -28,11 +29,12 @@ const Weather = () => {
     return Math.floor(((celsius * 9/5) + 32) * 100) / 100;
   };
   // Current Temperature: {toFahrenheit(weatherData.days[0].temp)}°F
+  console.log('wd', weatherData);
   return (
     <div >
       {weatherData ? (
         <>
-         Weather Conditions: {weatherData.current}
+         Weather Conditions: {weatherData}
         </> 
       ) : (
        <>

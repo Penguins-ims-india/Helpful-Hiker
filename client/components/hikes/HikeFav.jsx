@@ -76,6 +76,7 @@ const HikeFav = ({ favHike, getFavHikes, allTags, changeFilter }) => {
   }
 
   return (
+     
     <Card variant='outlined' sx={{width: 1/4, borderColor: 'black', margin: 3}}>
     <Box sx={{marginBottom:2, backgroundColor: 'lightgreen', display:'flex'}}>
       <Box sx={{marginLeft: 1}}>
@@ -86,7 +87,8 @@ const HikeFav = ({ favHike, getFavHikes, allTags, changeFilter }) => {
         <Typography variant='p'>
           {favHike.location}
         </Typography>
-      </Box>
+      </Box> 
+    <Weather />
     <Divider />
     </Box>
 
