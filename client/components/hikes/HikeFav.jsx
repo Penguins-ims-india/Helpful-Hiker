@@ -4,6 +4,7 @@ import { Button, TextField, Card, Typography, Box, IconButton, Menu, MenuItem, D
 import Weather from '../Weather.jsx';
 import Tag from './Tag.jsx';
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import HikeRating from './HikeRating.jsx';
 
 const HikeFav = ({ favHike, getFavHikes, allTags, changeFilter }) => {
@@ -75,11 +76,12 @@ const HikeFav = ({ favHike, getFavHikes, allTags, changeFilter }) => {
   }
 
   return (
-    <Card variant='outlined' sx={{width: 3/4, borderColor: 'black', margin: 3}}>
-    <Box sx={{marginBottom:2, backgroundColor: 'lightgreen'}}>
+    <Card variant='outlined' sx={{width: 1/4, borderColor: 'black', margin: 3}}>
+    <Box sx={{marginBottom:2, backgroundColor: 'lightgreen', display:'flex'}}>
       <Box sx={{marginLeft: 1}}>
         <Typography variant='h4'>
           {favHike.description}
+        <Button onClick={removeFavHike}><DeleteIcon sx={{justifySelf:"end", alignSelf:"flex-start", color:'black'}}/></Button>
         </Typography>
         <Typography variant='p'>
           {favHike.location}

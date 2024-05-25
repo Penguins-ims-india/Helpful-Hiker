@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import HikeFav from './HikeFav.jsx';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Autocomplete, Box } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
 
@@ -12,12 +13,13 @@ const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
     if (favHikes.hasOwnProperty(newFilter)) { setFilter(newFilter); }
   };
 
-  const handleChange = (e) => {
-    setInput(e.target.value);
+  const handleChange = (e, newValue) => {
+    setInput(newValue);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e = {}) => {
     if (e.type === 'keydown' && e.which !== 13) { return }
+    if (e.type === 'keydown' && e.which === 13) { handleSubmit() }
     changeFilter(input);
     setInput('');
   };
@@ -26,13 +28,27 @@ const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
 
   return (
     <div className="fav-hike-list">
-        <TextField
+      <Box sx={{width: 1/4, display: 'flex', flexDirection:'row', marginLeft: 3}}>
+        <Autocomplete
+          sx={{width: 9/10}}
+          disablePortal
+          options={allTags.map(tag => tag.name)}
+          getOptionLabel={tag => tag}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant='filled'
+              label="Search by Tag"
+            />
+          )}
           value={input}
-          placeholder='Search by tag'
-          onChange={handleChange}
+          inputValue={input}
+          onInputChange={handleChange}
           onKeyDown={handleSubmit}
-        />
-        <Button onClick={() => {changeFilter(input)}}>Search</Button>
+          onChange={handleChange}
+         />
+        <Button variant='contained' sx={{backgroundColor:'lightgreen'}} onClick={() => {changeFilter(input)}}><SearchIcon sx={{color:'black'}} /></Button>
+      </Box>
         {filter === 'all' ? <></> : <Button onClick={() => {changeFilter('all')}}>Clear Filter</Button>}
       {
         filteredHikes.map((favHike, i) => {
