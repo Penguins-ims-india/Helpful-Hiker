@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import React, { useState, useEffect, useCallback } from 'react';
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { useGeolocated } from 'react-geolocated';
 
 const containerStyle = {
@@ -13,13 +13,18 @@ const defaultCenter = {
 };
 
 function Map() {
-  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
-    useGeolocated({
-      positionOptions: {
-        enableHighAccuracy: false,
-      },
-      userDecisionTimeout: 5000,
-    });
+  const {
+    coords,
+    isGeolocationAvailable,
+    isGeolocationEnabled,
+    getPosition,
+    trigger,
+  } = useGeolocated({
+    positionOptions: {
+      enableHighAccuracy: true,
+    },
+    userDecisionTimeout: 5000,
+  });
 
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
@@ -58,7 +63,7 @@ function Map() {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={currentCenter}
-        zoom={10}
+        zoom={15}
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
