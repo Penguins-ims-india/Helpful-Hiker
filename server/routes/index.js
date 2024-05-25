@@ -13,8 +13,9 @@ const packingListItem = require('./packingListItem');
 
 const safeTree = Router();
 
-safeTree.post('/hikeSearch', hikes);
 safeTree.all('/hikes', hikes);
+safeTree.post('/hikeSearch', hikes);
+safeTree.all('/hikes/tags', hikes);
 safeTree.post('/hikes/:id/tags', hikes);
 safeTree.delete('/hikes/:id/tags/:tagID', hikes);
 

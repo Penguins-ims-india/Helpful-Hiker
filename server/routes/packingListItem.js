@@ -18,8 +18,9 @@ packingListItem.get('/packingListItem/:id', (req, res) => {
 
 // create a new packing list item
 packingListItem.post('/packingListItem/:id', (req, res) => {
-  const { name, quantity, packed, packingListId } = req.body;
-  PackingListItem.create({ name, quantity, packed, packingListId })
+  const { name, quantity, packed } = req.body;
+  const { id } = req.params;
+  PackingListItem.create({ name, quantity, packed, packingListId: id })
   .then(() => {
     res.sendStatus(201);
   })
@@ -46,6 +47,7 @@ packingListItem.put('/packingListItem/:id', (req, res) => {
     res.sendStatus(500);
   });
 });
+
 
 // delete a specific packing list item by its id
 packingListItem.delete('/packingListItem/:id', (req, res) => {

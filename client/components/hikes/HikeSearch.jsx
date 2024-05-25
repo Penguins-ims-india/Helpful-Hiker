@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { Button, TextField, Typography } from '@mui/material';
 
@@ -12,7 +12,10 @@ const HikeSearch = () => {
   const [input, setInput] = useState('');
   const [results, loadResults] = useState([]);
   const [favHikes, setFavHikes] = useState([]);
-  const favHikesRef = useRef(favHikes);
+  const favHikesRef = useRef(favHikes)
+  const [tags, setTags] = useState([]);
+  const tagsRef = useRef(tags)
+
   const handleInput = (e) => {
     setInput(e.target.value);
   }
@@ -36,14 +39,17 @@ const HikeSearch = () => {
     axios.get('/api/hikes')
       .then(({ data }) => {
         setFavHikes(data);
+        return axios.get('/api/hikes/tags')
+      })
+      .then(({data}) => {
+        setTags(data);
       })
       .catch((err) => {
         console.error('Failed to get favorite hikes', err)
       })
   }
-  useEffect(() => {
-    getFavHikes()}, [favHikesRef]
-  )
+
+  useEffect(getFavHikes, [favHikesRef, tagsRef])
 
   return (
     <div className="hike-search">
@@ -70,7 +76,7 @@ const HikeSearch = () => {
         <Typography variant="h5" gutterBottom>
           Favorite Trails
         </Typography>
-        <HikeFavList favHikes={ favHikes } getFavHikes={ getFavHikes }/>
+        <HikeFavList favHikes={ favHikes } getFavHikes={ getFavHikes } allTags={tags}/>
       </div>
     </div>
   )

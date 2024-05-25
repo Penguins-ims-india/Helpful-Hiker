@@ -18,7 +18,7 @@ const Nav = () => {
           Plant Info
         </Button>
       </Link>
-      <Link to='/hikes'>
+      <Link to='/hike'>
         <Button variant='contained' type='submit'>
           Hike Info
         </Button>
@@ -26,6 +26,11 @@ const Nav = () => {
       <Link to='/calender'>
         <Button variant='contained' type='submit'>
           Planning
+        </Button>
+      </Link>
+      <Link to='/packing-lists'>
+        <Button variant='contained' type='submit'>
+          Packing Lists
         </Button>
       </Link>
     </Box>

@@ -52,7 +52,6 @@ const HikeResult = ({ hike, getFavHikes }) => {
             primary={`Rating:  ${rating}`}
           />
         </ListItem>
-        
       </List>
       <Button variant="outlined" onClick={ addFavHike } type="button">Add Favorite</Button>
     </div>
