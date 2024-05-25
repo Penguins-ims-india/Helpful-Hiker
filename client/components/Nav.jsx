@@ -28,6 +28,11 @@ const Nav = () => {
           Planning
         </Button>
       </Link>
+      <Link to='/packing-lists'>
+        <Button variant='contained' type='submit'>
+          Packing Lists
+        </Button>
+      </Link>
     </Box>
   );
 };
