@@ -28,7 +28,7 @@ function Map() {
 
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyAHStHEGequcbfK849wQ4v3IUgyFpNuEIM', // Replace with your API key
+    googleMapsApiKey: '',
   });
 
   const [map, setMap] = useState(null);
@@ -40,6 +40,12 @@ function Map() {
   const onUnmount = useCallback(() => {
     setMap(null);
   }, []);
+
+  useEffect(() => {
+    if (isGeolocationAvailable && isGeolocationEnabled) {
+      getPosition();
+    }
+  }, [getPosition, isGeolocationAvailable, isGeolocationEnabled]);
 
   const currentCenter = coords
     ? { lat: coords.latitude, lng: coords.longitude }
@@ -59,7 +65,17 @@ function Map() {
 
   return isLoaded ? (
     <>
-      <p>{(currentCenter.lat, currentCenter.lng)}</p>
+      <p>
+        {currentCenter.lat}, {currentCenter.lng}
+      </p>
+      {!isGeolocationEnabled && (
+        <div>
+          <p>
+            Geolocation is not enabled. Please enable location services in your
+            browser settings.
+          </p>
+        </div>
+      )}
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={currentCenter}
@@ -67,7 +83,7 @@ function Map() {
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
-        {/* Child components, such as markers, info windows, etc. */}
+        {coords && <Marker position={currentCenter} />}
         <></>
       </GoogleMap>
     </>
