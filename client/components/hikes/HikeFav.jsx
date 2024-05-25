@@ -50,6 +50,7 @@ const HikeFav = ({ favHike, getFavHikes }) => {
 
   return (
     <div>
+      <Weather />
       <List>
         <ListItem>
           <ListItemText
@@ -66,7 +67,6 @@ const HikeFav = ({ favHike, getFavHikes }) => {
             primary={`Rating:  ${favHike.rating}`}
           />
         </ListItem>
-        <Weather />
       </List>
       <TextField 
         id="filled-basic"
