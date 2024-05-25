@@ -7,7 +7,6 @@ const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
   const [filter, setFilter] = useState('all')
 
   const filteredHikes = favHikes[filter] || [];
-  console.log('allTags', allTags)
 
   return (
     <div className="fav-hike-list">

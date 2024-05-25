@@ -34,7 +34,6 @@ const HikeSearch = () => {
   }
 
   const getFavHikes = () => {
-    console.log('getFavHikes');
     axios.get('/api/hikes')
       .then(({ data }) => {
         setFavHikes(data);
