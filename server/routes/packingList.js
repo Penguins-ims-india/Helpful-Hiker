@@ -27,7 +27,7 @@ packingList.post('/packingList', (req, res) => {
   const { name } = req.body;
   // use create sequelize prop to make a new packinglist
   PackingList.create({ userId, name })
-  // set status to 201 and send new packinglist
+  // set status to 201 and send it
     .then(() => {
       res.sendStatus(201);
     })
