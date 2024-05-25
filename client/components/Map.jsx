@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { useGeolocated } from 'react-geolocated';
 import { debounce } from 'lodash';
 
@@ -35,7 +35,7 @@ function Map() {
 
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: '',
+    googleMapsApiKey: 'AIzaSyB89yBjj_qquQ1qLK_ZRMhedTQa4RbXRpY',
   });
 
   const [map, setMap] = useState(null);
@@ -68,8 +68,19 @@ function Map() {
     }
   }, [isGeolocationAvailable, isGeolocationEnabled]);
 
+  const handleZoomChanged = useCallback(
+    debounce(() => {
+      if (map) {
+        console.log('Zoom Level:', map.getZoom());
+      }
+    }, 200),
+    [map]
+  );
+
+  useEffect(() => {
+    if (map) {
+      map.addListener('zoom_changed', handleZoomChanged);
     }
-  }, [getPosition, isGeolocationAvailable, isGeolocationEnabled]);
 
     return () => {
       if (map) {
