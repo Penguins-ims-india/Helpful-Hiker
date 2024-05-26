@@ -28,7 +28,7 @@ const PackingListItem = () => {
 
   const getPackingItems = () => {
     // send get request to /packingListItem/whateverIdItIs
-    axios.get(`/packingListItem/${packingListId}`)
+    axios.get(`/api/packingListItem/${packingListId}`)
       .then((response) => {
         // set packingItems to be the response.data
         setPackingItems(response.data);
@@ -40,7 +40,7 @@ const PackingListItem = () => {
 
   const handleAddItem = () => {
     // send post request to /packingListItem/whateverIdItIs
-    axios.post(`/packingListItem/${packingListId}`, {
+    axios.post(`/api/packingListItem/${packingListId}`, {
       // send this data with the post req
       name: newItemName,
       quantity: newItemQuantity,
@@ -61,7 +61,7 @@ const PackingListItem = () => {
 
   const handleDeleteItem = (itemId) => {
     // send delete request req to /packingListItem/whateverIdItIs
-    axios.delete(`/packingListItem/${itemId}`)
+    axios.delete(`/api/packingListItem/${itemId}`)
       .then(() => {
         // filter through the current packingItems
         // check each list's id and if the id does not match the id to delete, add that list to the filter function's array
@@ -77,7 +77,7 @@ const PackingListItem = () => {
     // if updatedQuantity is an empty string make it 0 if not just keep the same value
     const quantity = updatedQuantity === '' ? 0 : updatedQuantity
     // send delete request req to /packingListItem/whateverIdItIs
-    axios.put(`/packingListItem/${itemId}`, {
+    axios.put(`/api/packingListItem/${itemId}`, {
       // send this data with the put req
       name: updatedName,
       quantity: quantity,

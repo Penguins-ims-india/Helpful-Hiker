@@ -26,7 +26,7 @@ const PackingList = () => {
   // get request is done when the component mounts and ONLY when it mounts
   // [] = dependency array
   useEffect(() => {
-    axios.get('/packingList')
+    axios.get('/api/packingList')
     // response object contains props: data, status, statusText, headers, config
     // we want the data prop and we want it to be assigned to packingLists
       .then((response) => {
@@ -41,13 +41,13 @@ const PackingList = () => {
   const handleAdd = () => {
     // send post req to /packingList
     // req body contains object w prop name so we are setting it to newListName
-    axios.post('/packingList', { name: newListName })
+    axios.post('/api/packingList', { name: newListName })
       .then(() => {
         // setNewListName is called to clear the newListName input
         // reset it to empty string
         setNewListName('');
         // after clearing newListName, get req is sent to /packingList to get the updated lists
-        axios.get('/packingList')
+        axios.get('/api/packingList')
           .then((response) => {
             // assign data prop to packingLists by using setPackingLists
             setPackingLists(response.data);
@@ -65,7 +65,7 @@ const PackingList = () => {
   const handleDelete = (id) => {
     // send delete req to /packingList/id
     // takes in the specific id of the list we wanna delete
-    axios.delete(`/packingList/${id}`)
+    axios.delete(`/api/packingList/${id}`)
       .then(() => {
         // filter through the current packingLists
         // check each list's id and if the id does not match the id to delete, add that list to the filter function's array
@@ -88,12 +88,12 @@ const PackingList = () => {
   const handleUpdate = (id) => {
     // send put req to /packingList/id taking in the specific id of the list we wanna update
     // req body has a name prop which is set to the current val of editingName
-    axios.put(`/packingList/${id}`, { name: editingName })
+    axios.put(`/api/packingList/${id}`, { name: editingName })
     .then(() => {
       // no item is being edited
       setEditing(null);
       // get req to /packingList to get the updated packing lists
-      axios.get('/packingList')
+      axios.get('/api/packingList')
         .then((response) => {
           // assign data prop to packingLists by using setPackingLists
           setPackingLists(response.data);
