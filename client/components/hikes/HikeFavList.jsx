@@ -1,9 +1,8 @@
 
 import React, { useState } from 'react';
-import { Button, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import HikeFav from './HikeFav.jsx';
-import { TextField, Button, Autocomplete, Box } from '@mui/material';
+import { TextField, Button, Autocomplete, Box , Typography} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
