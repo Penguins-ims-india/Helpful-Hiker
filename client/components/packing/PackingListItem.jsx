@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, Typography, TextField, List, ListItem, IconButton, Checkbox } from '@mui/material';
+import { Box, Button, Typography, TextField, List, ListItem, IconButton, Checkbox, Paper, Grid } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useParams } from 'react-router-dom';
 
@@ -94,51 +94,73 @@ const PackingListItem = () => {
   };
 
   return (
-    <Box>
+    <Box p={3}>
       <Typography variant='h4'>Packing List Items</Typography>
-      <Box>
-        <TextField
-          // set label of text box to be New Item Name
-          label='New Item Name'
-          // set the value of input field to newItemName
-          value={newItemName}
-          // update newItemName with the current input field value when it changes
-          onChange={(event) => setNewItemName(event.target.value)}
-        />
-        <TextField
-          label='New Item Quantity'
-          value={newItemQuantity}
-          onChange={(event) => setNewItemQuantity(event.target.value)}
-        />
-        {/* when Add Item button is clicked, call handleAddItem function */}
-        <Button onClick={handleAddItem} variant='contained'>Add Item</Button>
-      </Box>
+      <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              // set label of text box to be New Item Name
+              label='New Item Name'
+              fullWidth
+              // set the value of input field to newItemName
+              value={newItemName}
+              // update newItemName with the current input field value when it changes
+              onChange={(event) => setNewItemName(event.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              label='New Item Quantity'
+              fullWidth
+              value={newItemQuantity}
+              onChange={(event) => setNewItemQuantity(event.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={2}>
+            {/* when Add Item button is clicked, call handleAddItem function */}
+            <Button onClick={handleAddItem} variant='contained' fullWidth>Add Item</Button>
+          </Grid>
+        </Grid>
+      </Paper>
       <List>
         {packingItems.map((item) => (
-          <ListItem key={item.id}>
-            <Checkbox
-              // if check box is checked, it is associated with the packed property
-              checked={item.packed}
-              // updates packed prop to whatever the checkbox marker is if it changes
-              onChange={(event) => handleUpdateItem(item.id, item.name, item.quantity, event.target.checked)}
-            />
-            <TextField
-              // input field is associated with the name property
-              value={item.name}
-              // updates name prop to whatever is put in the input field
-              onChange={(event) => handleUpdateItem(item.id, event.target.value, item.quantity, item.packed)}
-            />
-            <TextField
-            // input field is associated with the quantity property
-              value={item.quantity}
-              // updates quantity prop to whatever is put in the input field
-              onChange={(event) => handleUpdateItem(item.id, item.name, event.target.value, item.packed)}
-            />
-            {/* deletes item when delete icon is clicked */}
-            <IconButton onClick={() => handleDeleteItem(item.id)}>
-              <DeleteIcon />
-            </IconButton>
-          </ListItem>
+          <Paper key={item.id} elevation={3} sx={{ marginBottom: 2 }}>
+            <ListItem>
+              <Checkbox
+                // if check box is checked, it is associated with the packed property
+                checked={item.packed}
+                // updates packed prop to whatever the checkbox marker is if it changes
+                onChange={(event) => handleUpdateItem(item.id, item.name, item.quantity, event.target.checked)}
+              />
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={12} sm={5}>
+                  <TextField
+                    // input field is associated with the name property
+                    value={item.name}
+                    fullWidth
+                    // updates name prop to whatever is put in the input field
+                    onChange={(event) => handleUpdateItem(item.id, event.target.value, item.quantity, item.packed)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    // input field is associated with the quantity property
+                    value={item.quantity}
+                    fullWidth
+                    // updates quantity prop to whatever is put in the input field
+                    onChange={(event) => handleUpdateItem(item.id, item.name, event.target.value, item.packed)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                  {/* deletes item when delete icon is clicked */}
+                  <IconButton onClick={() => handleDeleteItem(item.id)} sx={{ backgroundColor: 'lightgreen' }}>
+                    <DeleteIcon sx={{ color: 'black' }} />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </ListItem>
+          </Paper>
         ))}
       </List>
     </Box>
