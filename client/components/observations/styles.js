@@ -1,7 +1,6 @@
 import logo from '../../style/logo.png';
 
 const st = {
-  backgroundImage: `url(${logo})`,
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
