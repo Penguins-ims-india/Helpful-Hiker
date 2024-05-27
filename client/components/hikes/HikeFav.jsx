@@ -6,6 +6,8 @@ import Tag from './Tag.jsx';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HikeRating from './HikeRating.jsx';
+import styles from '../../style/colors';
+const {textColor, backgroundColor} = styles;
 
 const HikeFav = ({ favHike, getFavHikes, allTags, changeFilter }) => {
 
@@ -78,16 +80,16 @@ const HikeFav = ({ favHike, getFavHikes, allTags, changeFilter }) => {
   return (
      
     <Card variant='outlined' sx={{width: 1/4, borderColor: 'black', margin: 3}}>
-    <Box sx={{marginBottom:2, backgroundColor: 'lightgreen', display:'flex'}}>
+    <Box sx={{marginBottom:2, display:'flex', ...backgroundColor }}>
       <Box sx={{marginLeft: 1}}>
         <Typography variant='h4'>
           {favHike.description}
-        <Button onClick={removeFavHike}><DeleteIcon sx={{justifySelf:"end", alignSelf:"flex-start", color:'black'}}/></Button>
+        <Button onClick={removeFavHike}><DeleteIcon sx={{justifySelf:"end", alignSelf:"flex-start", ...textColor}}/></Button>
         </Typography>
         <Typography variant='p'>
           {favHike.location}
         </Typography>
-      </Box> 
+      </Box>
     <Weather />
     <Divider />
     </Box>
