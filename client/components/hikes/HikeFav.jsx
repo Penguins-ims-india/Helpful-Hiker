@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, TextField, Card, Typography, Box, IconButton, Menu, MenuItem, Divider, Rating} from '@mui/material';
+import { Button, TextField, Card, Typography, Box, IconButton, Menu, MenuItem, Divider, Grid} from '@mui/material';
 import Weather from '../Weather.jsx';
 import Tag from './Tag.jsx';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HikeRating from './HikeRating.jsx';
+import styles from '../../style/colors';
+const {textColor, backgroundColor} = styles;
 
 const HikeFav = ({ favHike, getFavHikes, allTags, changeFilter }) => {
 
@@ -76,47 +78,48 @@ const HikeFav = ({ favHike, getFavHikes, allTags, changeFilter }) => {
   }
 
   return (
-     
-    <Card variant='outlined' sx={{width: 1/4, borderColor: 'black', margin: 3}}>
-    <Box sx={{marginBottom:2, backgroundColor: 'lightgreen', display:'flex'}}>
-      <Box sx={{marginLeft: 1}}>
-        <Typography variant='h4'>
-          {favHike.description}
-        <Button onClick={removeFavHike}><DeleteIcon sx={{justifySelf:"end", alignSelf:"flex-start", color:'black'}}/></Button>
-        </Typography>
-        <Typography variant='p'>
-          {favHike.location}
-        </Typography>
-      </Box> 
-    <Weather />
-    <Divider />
-    </Box>
-
-    <HikeRating savedRating={favHike.rating} rateFavHike={rateFavHike} />
-
-    <Divider />
-    <Box>
-      {favHike.tags.map(tag => <Tag tag={tag} deleteTag={deleteTag} changeFilter={changeFilter} key={tag.id}/>)}
-      <IconButton size='small' sx={{backgroundColor: 'lightgrey', margin: 1}} onClick={handleClick}><AddIcon fontSize='small' /></IconButton>
-      <Menu
-        anchorEl={anchor}
-        open={open}
-        onClose={handleClose}
-        sx={{maxHeight: 400}}
-      >
-        {allTags.map(tag => (
-          <div key={tag.id}><Tag tag={tag} handleClick={addTag}/></div>
-        ))}
-        <Divider sx={{margin: 1}} />
-        <TextField
-          placeholder='New Tag'
-          value={newTag}
-          onChange={handleInput}
-        />
-        <MenuItem onClick={() => {addTag({name: newTag})}}>+</MenuItem>
-        </Menu>
+     <Grid item xs={3}>
+      <Card variant='outlined' sx={{ borderColor: 'black', maxWidth: 650}}>
+      <Box sx={{marginBottom:2, display:'flex', ...backgroundColor }}>
+        <Box sx={{marginLeft: 1}}>
+          <Typography variant='h4'>
+            {favHike.description}
+          <Button onClick={removeFavHike}><DeleteIcon sx={{justifySelf:"end", alignSelf:"flex-start", ...textColor}}/></Button>
+          </Typography>
+          <Typography variant='p'>
+            {favHike.location}
+          </Typography>
+        </Box>
+      <Weather />
+      <Divider />
       </Box>
-    </Card>
+
+      <HikeRating savedRating={favHike.rating} rateFavHike={rateFavHike} />
+
+      <Divider />
+      <Box>
+        {favHike.tags.map(tag => <Tag tag={tag} deleteTag={deleteTag} changeFilter={changeFilter} key={tag.id}/>)}
+        <IconButton size='small' sx={{backgroundColor: 'lightgrey', margin: 1}} onClick={handleClick}><AddIcon fontSize='small' /></IconButton>
+        <Menu
+          anchorEl={anchor}
+          open={open}
+          onClose={handleClose}
+          sx={{maxHeight: 400}}
+        >
+          {allTags.map(tag => (
+            <div key={tag.id}><Tag tag={tag} handleClick={addTag}/></div>
+          ))}
+          <Divider sx={{margin: 1}} />
+          <TextField
+            placeholder='New Tag'
+            value={newTag}
+            onChange={handleInput}
+          />
+          <MenuItem onClick={() => {addTag({name: newTag})}}>+</MenuItem>
+          </Menu>
+        </Box>
+      </Card>
+    </Grid>
   )
 }
 

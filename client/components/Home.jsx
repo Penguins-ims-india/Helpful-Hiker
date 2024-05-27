@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import Nav from './Nav.jsx';
 import axios from 'axios';
 import { Box, Button, Typography, Avatar, Dialog } from '@mui/material';
-import logo from '../style/logo.png';
 import ObservationsList, {
   handleEdit,
 } from './observations/ObservationsList.jsx';
 import ObsForm from './observations/ObsForm.jsx';
 import { st, reviewBox, boxHeader } from './observations/styles.js';
+import styles from '../style/colors';
+const {textColor, backgroundColor} = styles;
 
 const Home = () => {
   const [observations, setObservations] = useState([]);
@@ -39,14 +40,10 @@ const Home = () => {
     <div>
       <Box sx={st}>
         <Box>
-          <Typography variant='h2' align='center' gutterBottom>
-            SafeTree
-          </Typography>
+          <h1>Helpful Hiker</h1>
+          <h2>How can we help?</h2>
         </Box>
         <Nav />
-        <Box>
-          <Avatar sizes='medium' src={`${logo}`} />
-        </Box>
         <Box sx={{ overflow: 'hidden' }}>
           <Box height={300} width={500} sx={reviewBox}>
             <Box sx={boxHeader}>
@@ -80,7 +77,7 @@ const Home = () => {
             </Dialog>
           </Box>
         </Box>
-        <Button variant='contained' type='submit' onClick={handleOpen}>
+        <Button variant='contained' type='submit' onClick={handleOpen} sx={backgroundColor}>
           Add
         </Button>
         {/* <EditObs getObservations={getObservations} handleEdit={handleEdit}/> */}

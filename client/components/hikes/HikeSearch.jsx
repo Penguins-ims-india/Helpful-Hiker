@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { Button, TextField, Typography } from '@mui/material';
+import styles from '../../style/colors';
+const {textColor, backgroundColor} = styles;
 
 import HikeResults from './HikeResults.jsx';
 import HikeFavList from './HikeFavList.jsx';
@@ -62,7 +64,7 @@ const HikeSearch = () => {
           type="text"
           placeholder="city, state, or zip"
         />
-        <Button variant="outlined" onClick={ searchHikes } type="button">Search</Button>
+        <Button variant="contained" sx={backgroundColor} onClick={ searchHikes } type="button">Search</Button>
       </div>
 
       <div className="hike-search-results">

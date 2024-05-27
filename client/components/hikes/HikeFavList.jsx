@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import HikeFav from './HikeFav.jsx';
-import { TextField, Button, Autocomplete, Box , Typography} from '@mui/material';
+import { TextField, Button, Autocomplete, Box , Typography, Grid} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import styles from '../../style/colors';
+const {textColor, backgroundColor} = styles;
 
 const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
 
@@ -54,9 +56,10 @@ const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
           onKeyDown={handleSubmit}
           onChange={handleChange}
          />
-        <Button variant='contained' sx={{backgroundColor:'lightgreen'}} onClick={() => {changeFilter(input)}}><SearchIcon sx={{color:'black'}} /></Button>
+        <Button variant='contained' sx={backgroundColor} onClick={() => {changeFilter(input)}}><SearchIcon /></Button>
       </Box>
-        {filter === 'all' ? <></> : <Button onClick={() => {changeFilter('all')}}>Clear Filter</Button>}
+        {filter === 'all' ? <></> : <Button variant='contained' sx={backgroundColor} onClick={() => {changeFilter('all')}}>Clear Filter</Button>}
+      <Grid container spacing={2} sx={{marginTop: 2}}>
       {
         filteredHikes.map((favHike, i) => {
           return (
@@ -70,6 +73,7 @@ const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
           )
         })
       }
+      </Grid>
     </div>
   )
 }
