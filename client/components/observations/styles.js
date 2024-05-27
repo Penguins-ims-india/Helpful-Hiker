@@ -1,4 +1,4 @@
-import logo from '../../style/logo.png';
+
 
 const st = {
   backgroundRepeat: 'no-repeat',
