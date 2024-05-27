@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, UUID } = require('sequelize');
 const colorGenerator = require('../helpers/colorGenerator');
 
 const sequelize = new Sequelize('safetree', 'root', '', {
@@ -22,6 +22,7 @@ const User = sequelize.define('User', {
     primaryKey: true,
     autoIncrement: true,
   },
+  picture: DataTypes.STRING,
   username: DataTypes.STRING,
   googleId: DataTypes.STRING,
 });

@@ -1,3 +1,4 @@
+const { use } = require('passport');
 const { User } = require('../database');
 const { Router } = require('express');
 const user = Router();
@@ -8,9 +9,12 @@ user.post('/user', (req, res) => {
   });
 });
 user.get('/user', (req, res) => {
-  User.findAll({}).then((data) => {
-    console.log(data);
-  });
+  console.log('hiya')
+  const userId = req.user[0]['id'];
+  User.findByPk(userId)
+    .then(data => {
+      res.status(200).send(data);
+    })
 });
 user.patch('/user', (req, res) => {
   User.update({}).then((data) => {
@@ -23,4 +27,4 @@ user.delete('/user', (req, res) => {
   });
 });
 
-module.exports = user;
+module.exports = user
