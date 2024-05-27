@@ -20,8 +20,9 @@ passport.use(
       callbackURL: '/auth/google/callback',
     },
     function (accessToken, refreshToken, profile, done) {
+      console.log(profile.photos[0].value);
       User.findOrCreate({
-        where: { googleId: profile.id },
+        where: { googleId: profile.id, picture: profile.photos[0].value.toString() },
         // defaults: { googleId: profile.id, username: 'Mr.Krabbs' },
       })
         .then((user) => {
