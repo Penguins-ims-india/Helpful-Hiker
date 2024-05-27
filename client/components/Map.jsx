@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const containerStyle = {
   width: '100%',
-  height: 'calc(100vh - 64px)', // Adjust height as per your requirement
+  height: 'calc(100vh - 64px)',
 };
 
 const defaultCenter = {
@@ -42,7 +42,7 @@ function Map() {
 
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyB89yBjj_qquQ1qLK_ZRMhedTQa4RbXRpY', // Replace with your actual API key
+    googleMapsApiKey: 'AIzaSyB89yBjj_qquQ1qLK_ZRMhedTQa4RbXRpY',
   });
   
   const [picture, setPicture] = useState('https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png');
@@ -102,9 +102,9 @@ function Map() {
       position={position}
       icon={{
         url: picture,
-        scaledSize: new window.google.maps.Size(48, 48), // Adjust the size as needed
-        origin: new window.google.maps.Point(0, 0), // Adjust the origin point
-        anchor: new window.google.maps.Point(24, 24), // Adjust the anchor point
+        scaledSize: new window.google.maps.Size(48, 48), 
+        origin: new window.google.maps.Point(0, 0), 
+        anchor: new window.google.maps.Point(24, 24),
       }}
     />
   );
