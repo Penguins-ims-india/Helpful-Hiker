@@ -5,6 +5,8 @@ import { Button, TextField, Typography } from '@mui/material';
 import HikeResults from './HikeResults.jsx';
 import HikeFavList from './HikeFavList.jsx';
 
+
+
 const HikeSearch = () => {
 
   const [input, setInput] = useState('');

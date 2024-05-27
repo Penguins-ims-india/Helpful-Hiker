@@ -27,13 +27,16 @@ const HikeResult = ({ hike, getFavHikes }) => {
   const getLocation = () => {
     axios.get(`/api/weather/${location}`)
     .then(({data}) => {
-      console.log(data)
+      // console.log(data)
     })
   }
   
   return (
     <div>
       <List>
+        <ListItem>
+          <Weather location={location}/>
+        </ListItem>
         <ListItem>
           <ListItemText
             primary={`Name:  ${description}`}
@@ -47,10 +50,6 @@ const HikeResult = ({ hike, getFavHikes }) => {
         <ListItem>
           <ListItemText
             primary={`Rating:  ${rating}`}
-          />
-        </ListItem>
-        <ListItem>
-          <Weather
           />
         </ListItem>
       </List>

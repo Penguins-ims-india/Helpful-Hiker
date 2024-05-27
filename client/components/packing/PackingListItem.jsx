@@ -73,11 +73,14 @@ const PackingListItem = () => {
   };
 
   const handleUpdateItem = (itemId, updatedName, updatedQuantity, updatedPacked) => {
+    // empty string means 0 for quantity
+    // if updatedQuantity is an empty string make it 0 if not just keep the same value
+    const quantity = updatedQuantity === '' ? 0 : updatedQuantity
     // send delete request req to /packingListItem/whateverIdItIs
     axios.put(`/packingListItem/${itemId}`, {
       // send this data with the put req
       name: updatedName,
-      quantity: updatedQuantity,
+      quantity: quantity,
       packed: updatedPacked,
       packingListId
     })

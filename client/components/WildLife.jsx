@@ -9,7 +9,7 @@ const WildLife = () => {
   const [emptyInput, updatedInput] = useState("");
 
   useEffect(() => {
-    console.log("Updated list:", list);
+    // console.log("Updated list:", list);
   }, [list]);
 
   const loadList = () => {

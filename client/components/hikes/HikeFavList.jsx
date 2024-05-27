@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+
+import React, { useState } from 'react';
 import axios from 'axios';
 import HikeFav from './HikeFav.jsx';
-import { TextField, Button, Autocomplete, Box } from '@mui/material';
+import { TextField, Button, Autocomplete, Box , Typography} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
@@ -12,6 +13,12 @@ const HikeFavList = ({ favHikes, getFavHikes, allTags }) => {
   const changeFilter = (newFilter) => {
     if (favHikes.hasOwnProperty(newFilter)) { setFilter(newFilter); }
   };
+
+  const [date, setDate] = useState('');
+
+  const handleDateInput = (e) => {
+    setDate(e.target.value);
+  }
 
   const handleChange = (e, newValue) => {
     setInput(newValue);
