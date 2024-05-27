@@ -2,10 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { useGeolocated } from 'react-geolocated';
 import { debounce } from 'lodash';
+import { Typography, Container } from '@mui/material';
+import axios from 'axios';
 
 const containerStyle = {
-  width: '1000px',
-  height: '1000px',
+  width: '100%',
+  height: 'calc(100vh - 64px)', // Adjust height as per your requirement
 };
 
 const defaultCenter = {
@@ -24,20 +26,26 @@ const mapOptions = {
 };
 
 function Map() {
-  const { coords, isGeolocationAvailable, isGeolocationEnabled, watchPosition, trigger } =
-    useGeolocated({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      watchPosition: true,
-      userDecisionTimeout: 5000,
-    });
+  const {
+    coords,
+    isGeolocationAvailable,
+    isGeolocationEnabled,
+    watchPosition,
+    trigger,
+  } = useGeolocated({
+    positionOptions: {
+      enableHighAccuracy: true,
+    },
+    watchPosition: true,
+    userDecisionTimeout: 5000,
+  });
 
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyB89yBjj_qquQ1qLK_ZRMhedTQa4RbXRpY',
+    googleMapsApiKey: 'AIzaSyB89yBjj_qquQ1qLK_ZRMhedTQa4RbXRpY', // Replace with your actual API key
   });
-
+  
+  const [picture, setPicture] = useState('https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png');
   const [map, setMap] = useState(null);
   const [currentPosition, setCurrentPosition] = useState(defaultCenter);
 
@@ -61,7 +69,7 @@ function Map() {
           enableHighAccuracy: true,
           timeout: 5000,
           maximumAge: 0,
-        }
+        },
       );
 
       return () => navigator.geolocation.clearWatch(watchId);
@@ -74,40 +82,42 @@ function Map() {
         console.log('Zoom Level:', map.getZoom());
       }
     }, 200),
-    [map]
+    [map],
   );
 
-  // useEffect(() => {
-  //   if (map) {
-  //     map.addListener('zoom_changed', handleZoomChanged);
-  //   }
+  const getUserPicture = useCallback(() => {
+    axios.get('/api/user').then(({ data }) => {
+      setPicture(data.picture);
+    }).catch((error) => {
+      console.error('Error fetching user picture:', error);
+    });
+  }, []);
 
-  //   return () => {
-  //     if (map) {
-  //       google.maps.event.clearListeners(map, 'zoom_changed');
-  //     }
-  //   };
-  // }, [map, handleZoomChanged]);
+  useEffect(() => {
+    getUserPicture();
+  }, [getUserPicture]);
 
-  // if (loadError) {
-  //   console.error('Error loading Google Maps API:', loadError);
-  // }
-
-  // if (!isGeolocationAvailable) {
-  //   console.error('Geolocation is not available on this browser.');
-  // }
-
-  // if (!isGeolocationEnabled) {
-  //   console.error('Geolocation is not enabled.');
-  // }
+  const CustomMarker = ({ position }) => (
+    <Marker
+      position={position}
+      icon={{
+        url: picture,
+        scaledSize: new window.google.maps.Size(48, 48), // Adjust the size as needed
+        origin: new window.google.maps.Point(0, 0), // Adjust the origin point
+        anchor: new window.google.maps.Point(24, 24), // Adjust the anchor point
+      }}
+    />
+  );
 
   return isLoaded ? (
-    <>
-      <p>{currentPosition.lat}, {currentPosition.lng}</p>
+    <Container maxWidth='xl'>
+      <Typography variant='h6' gutterBottom>
+        This map is so that you can see your location while on a hike so you don't get lost.
+      </Typography>
       {!isGeolocationEnabled && (
-        <div>
-          <p>Geolocation is not enabled. Please enable location services in your browser settings.</p>
-        </div>
+        <Typography variant='body1' gutterBottom>
+          Geolocation is not enabled. Please enable location services in your browser settings.
+        </Typography>
       )}
       <GoogleMap
         mapContainerStyle={containerStyle}
@@ -117,9 +127,9 @@ function Map() {
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
-        <Marker position={currentPosition} />
+        <CustomMarker position={currentPosition} />
       </GoogleMap>
-    </>
+    </Container>
   ) : (
     <div>Loading...</div>
   );
