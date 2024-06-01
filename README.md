@@ -2,6 +2,10 @@
 
 ![Safe-Tree-Logo](client/style/logo.png)
 
+## Known Bugs
+- Missing some of the current .env variables that should be there
+- Plants page is not currently working because the routes have not been moved to /api/plants. And don't know the api used. 
+
 ### SafeTree
 
 > SafeTree is a play on the word 'safety' for user's that enjoy the outdoors!
@@ -12,12 +16,18 @@
 <li>Identify harmful/helpful plants
 <li>Identify local animals
 <li>Share experiences!
+<li>Track Your location on hikes so you don't get lost!
+<li>See the weather at each Hike to prevent going at a bad time.
+<li>See hikes based on features a park has
+<li>Create a packing list so that you can plan for what you need ahead
 
 ### What frameworks/libraries are used
 
+![alt text](image.png)
+
 #### Tech Stack
 
-<ins>_**Client:**_</ins> -> React (Hooks) & Axios\
+<ins>_**Client:**_</ins> -> React (Hooks) & Axios
 <ins>
 _**Server:**_</ins> -> Express\
 <ins>
@@ -82,6 +92,10 @@ _**Style:**_ </ins>-> Material UI
 <li>@emotion/styled
 <li>mui/material
 
+> For the google maps you need to get a google key for the react-google-maps api
+<li> react-google-maps
+
+
 > Lastly for Authentication was performed with the use of Passport and the Google Strategy
 
 <li> Passport
@@ -105,6 +119,15 @@ sudo service mysql start
 5: **npm run seed**: Create fake data to test operations throughout the development process.
 
 6: **Restart server** so the database can accept the seed data
+
+### Required .ENV Variables
+
+[Google Developer Console](https://console.cloud.google.com/project)
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_MAPS_API_KEY=
+[Visual Crossing](https://www.visualcrossing.com/)
+VISUAL_CROSSING_API_KEY=
 
 ### Closing
 
