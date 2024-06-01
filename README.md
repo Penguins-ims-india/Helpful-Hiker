@@ -1,10 +1,11 @@
+# Legacy: Helpful Hiker
 # Greenfield: Safe-Tree Application
 
-![Safe-Tree-Logo](client/style/logo.png)
+![Home](./home-screenshot.png)
 
-### SafeTree
+### Helpful Hiker
 
-> SafeTree is a play on the word 'safety' for user's that enjoy the outdoors!
+> Helpful Hiker is a one-stop shop for hiking planning and safety
 
 ### Features
 
@@ -112,4 +113,5 @@ sudo service mysql start
 
 ### Authors & acknowledgements:
 
-`Operation Spark instructors` & `Cody D. Allyn M. Mike S. Darius C. Rodman L.`
+Helpful Hiker: `Operation Spark instructors` & `Alex H. Arina N. Patrick H. Josh R.`
+Safetree: `Operation Spark instructors` & `Cody D. Allyn M. Mike S. Darius C. Rodman L.`
