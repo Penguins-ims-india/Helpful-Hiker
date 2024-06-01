@@ -27,7 +27,6 @@ const HikeResult = ({ hike, getFavHikes }) => {
   const getLocation = () => {
     axios.get(`/api/weather/${location}`)
     .then(({data}) => {
-      // console.log(data)
     })
   }
   
