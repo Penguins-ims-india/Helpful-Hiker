@@ -2,21 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 // require("dotenv").config();
 // const { ANIMALS_API_KEY } = process.env;
-// console.log(process.env)
 
 const WildLife = () => {
   const [list, updateList] = useState([]);
   const [emptyInput, updatedInput] = useState("");
 
   useEffect(() => {
-    // console.log("Updated list:", list);
   }, [list]);
 
   const loadList = () => {
     axios
       .get("/api/wildlife")
       .then((response) => {
-        console.log("Frontend Axios Response:", response.data);
         updateList(response.data);
       })
       .catch((error) => {
@@ -34,10 +31,8 @@ const WildLife = () => {
         console.log('NEW RESPONSE:', response);
 
         
-        //console.log('Formatted response', animals);
         updateList(response.data);
 
-        // console.log(list);
       })
       .catch((error) => {
         console.error("Error locating animal list:", error);

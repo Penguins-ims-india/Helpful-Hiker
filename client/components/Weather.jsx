@@ -5,12 +5,10 @@ import { Typography, Box } from '@mui/material';
 const Weather = ({location}) => {
   const [weatherData, setWeatherData] = useState(null);
   const weatherRef = useRef(weatherData);
-  // console.log('wd', weatherData)
   // Get api/weather
   const getWeatherData = () => {
     axios.get(`/api/weather/${location}`)
     .then((response) => {
-      console.log('r', response) 
       // set state using setWeatherData
       setWeatherData(response.data.days[0].description);
     })
@@ -29,7 +27,6 @@ const Weather = ({location}) => {
     return Math.floor(((celsius * 9/5) + 32) * 100) / 100;
   };
   // Current Temperature: {toFahrenheit(weatherData.days[0].temp)}°F
-  console.log('wd', weatherData);
   return (
     <div >
       {weatherData ? (

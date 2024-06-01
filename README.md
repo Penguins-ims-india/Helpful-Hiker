@@ -113,3 +113,4 @@ sudo service mysql start
 ### Authors & acknowledgements:
 
 `Operation Spark instructors` & `Cody D. Allyn M. Mike S. Darius C. Rodman L.`
+`Alex H, Patrick H, Arina N, Josh R`

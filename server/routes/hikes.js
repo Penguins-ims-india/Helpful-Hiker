@@ -121,7 +121,7 @@ hikes.delete('/hikes', (req, res) => {
       res.sendStatus(200);
     })
     .catch((err) => {
-      console.log('Failed to delete a hike: ', err);
+      console.error('Failed to delete a hike: ', err);
       res.sendStatus(500);
     });
 });
@@ -193,7 +193,7 @@ hikes.get('/hikes/tags', (req, res) => {
       res.send(tags)
     })
     .catch((err) => {
-      console.log('Failed to get all tags: ', err);
+      console.error('Failed to get all tags: ', err);
       res.sendStatus(500);
     });
 })
