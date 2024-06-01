@@ -4,7 +4,12 @@
 
 ## Known Bugs
 - Missing some of the current .env variables that should be there
-- Plants page is not currently working because the routes have not been moved to /api/plants. And don't know the api used. 
+- Plants page is not currently working because the routes have not been moved to /api/plants. And don't know the api used.
+- Wildlife page is not currently working for the same reason as plants
+
+## Notes
+- On computers/laptops with a smaller screen, the navigation bar is too wide and covers up the page titles
+- The original greenfield project had a Planning feature which included a hard-coded calendar, however we had to delete it for our legacy because it was interfering with our commits and pulls
 
 ### SafeTree
 
